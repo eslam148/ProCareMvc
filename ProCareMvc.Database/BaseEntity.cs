@@ -15,6 +15,8 @@ namespace ProCareMvc.Database
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime ModifiedAt { get; set; } = DateTime.Now;
 
+        public bool IsDeleted { get; set; } = false;
+
 
 
     }
