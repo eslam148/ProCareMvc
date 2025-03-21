@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProCareMvc.Database.Entity.Order
+namespace ProCareMvc.Database.Entity
 {
-    public class AppountmentOrderItem:OrderItem
+    public class AppointmentOrderItem:OrderItem
     {
     }
 }
