@@ -22,7 +22,7 @@ namespace ProCareMvc.Database.Entity
         public DateTime DateOrder {  get; set; }
         public string Status {  get; set; }
 
-        public List<OrderItem> orderItems { get; set; }
+        public List<OrderItem> OrderItemList { get; set; }
         public virtual Patient Patient { get; set; }
 
     }
