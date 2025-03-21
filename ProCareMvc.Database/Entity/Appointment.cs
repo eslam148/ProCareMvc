@@ -8,5 +8,7 @@ namespace ProCareMvc.Database.Entity
 {
     public class Appointment
     {
+
+        //ff,f.dmd
     }
 }
