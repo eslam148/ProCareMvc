@@ -8,5 +8,6 @@ namespace ProCareMvc.Database.Entity
 {
     public class Order
     {
+        public int Id { get; set; }
     }
 }
