@@ -23,8 +23,9 @@ namespace ProCareMvc.Database.Entity
         public int DrugId { get; set; }
         public Drug Drug { get; set; }
 
-        [ForeignKey("PatientHistory")]
+        [ForeignKey("PatientHestory")]
         public int PatientHistoryId { get; set; }
         public PatientHestory PatientHistory { get; set; }
     }
+       
 }
