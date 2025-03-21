@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProCareMvc.Database.Entity.Order
+{
+    public class AppountmentOrderItem:OrderItem
+    {
+    }
+}
