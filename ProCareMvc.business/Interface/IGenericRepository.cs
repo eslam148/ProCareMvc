@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProCareMvc.business.Interface
 {
-    public class IGenericRepository
+    public interface IGenericRepository<TEntity> where TEntity : class
     {
+        TEntity GetById(int id);
     }
 }

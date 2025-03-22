@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProCareMvc.business;
 using ProCareMvc.Database;
 
 namespace ProCareMvc.presentation
@@ -15,6 +16,8 @@ namespace ProCareMvc.presentation
             {
                 optiens.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
             });
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

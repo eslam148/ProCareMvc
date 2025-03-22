@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProCareMvc.Database.Entity;
 
 namespace ProCareMvc.business.Interface
 {
-    internal interface IDrugRepository
+    public interface IDrugRepository:IGenericRepository<Drug>
     {
     }
 }
