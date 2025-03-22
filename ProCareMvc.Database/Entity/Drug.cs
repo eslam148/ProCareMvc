@@ -8,5 +8,9 @@ namespace ProCareMvc.Database.Entity
 {
     public class Drug
     {
+
+
+
+        public ICollection<PatientHestory> Hestories { get; set; }
     }
 }
