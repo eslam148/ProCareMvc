@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProCareMvc.Database.Entity.Order
+namespace ProCareMvc.business.Repository
 {
     internal class OrderRepository
     {

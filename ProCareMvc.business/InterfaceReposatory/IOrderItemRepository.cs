@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProCareMvc.Database.Entity.Order
+namespace ProCareMvc.business.InterfaceReposatory
 {
-    internal class OrderItemRepository
+    internal interface IOrderItemRepository
     {
     }
 }
