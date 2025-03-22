@@ -8,7 +8,9 @@ namespace ProCareMvc.Database.Entity
 {
     public class PatientHestory
     {
-        public int Record_ID { get; set; }
+
+
+        public Guid Record_ID { get; set; }
         public string Treatment { get; set; }
 
         public string Diagnosis { get; set; }
@@ -19,7 +21,11 @@ namespace ProCareMvc.Database.Entity
 
         public DateTime NextAppointment { get; set; }
 
-        public ICollection<TakeDrug> TakeDrug { get; set; }
+        public Guid UserId { get; set; }
+
+        public User User { get; set; }
+
+     
 
     }
 }
