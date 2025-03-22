@@ -12,9 +12,9 @@ namespace ProCareMvc.business.Repository
             _appDbContext = appDbContext;
         }
 
-        public TEntity GetById(int id)
+        public TEntity GetById(Guid id)
         {
-            return _appDbContext.Set<TEntity>().Find(id)!;
+            return _appDbContext.Set<TEntity>().Find(id);
         }
     }
 }

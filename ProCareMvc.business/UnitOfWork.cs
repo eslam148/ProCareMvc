@@ -27,11 +27,11 @@ namespace ProCareMvc.business
         public UnitOfWork(AppDbContext appContext)
         {
             context = appContext;
-            OrderRepository = new OrderRepository(context);
-            OrderItemRepository = new OrderItemRepository(context);
-            drugRepository = new DrugRepository(context);
-            HospitalRepository = new HospitalRepository(context);
-            takeDrugRepository = new TakeDrugRepository(context);
+            OrderRepository = new OrderRepository(appContext);
+            OrderItemRepository = new OrderItemRepository(appContext);
+            drugRepository = new DrugRepository(appContext);
+            HospitalRepository = new HospitalRepository(appContext);
+            takeDrugRepository = new TakeDrugRepository(appContext);
         }
 
         public void Dispose()

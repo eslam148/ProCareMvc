@@ -8,6 +8,6 @@ namespace ProCareMvc.business.Interface
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        TEntity GetById(int id);
+        TEntity GetById(Guid id);
     }
 }

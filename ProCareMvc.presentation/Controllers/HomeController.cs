@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ProCareMvc.business;
+using ProCareMvc.business.InterfaceReposatory;
 using ProCareMvc.presentation.Models;
 
 namespace ProCareMvc.presentation.Controllers
@@ -10,6 +11,7 @@ namespace ProCareMvc.presentation.Controllers
         private readonly ILogger<HomeController> _logger;
 
         public IUnitOfWork UnitOfWork { get; }
+        
 
         public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork)
         {
@@ -19,7 +21,7 @@ namespace ProCareMvc.presentation.Controllers
 
         public IActionResult Index()
         {
-            UnitOfWork.OrderItemRepository.GetById(1);
+            
             return View();
         }
 
