@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProCareMvc.business.Repository
+namespace ProCareMvc.business.Repository.@class
 {
-    internal class DrugRepository
+    internal class TakeDrugRepository
     {
     }
 }
