@@ -11,5 +11,8 @@ namespace ProCareMvc.Database.Entity
     public class User : IdentityUser<Guid>
     {
 
+
+      
+
     }
 }
