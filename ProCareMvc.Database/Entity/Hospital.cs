@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProCareMvc.Database.Entity
 {
-    public class Hospital
+    public class Hospital:BaseEntity
     {
     }
 }
