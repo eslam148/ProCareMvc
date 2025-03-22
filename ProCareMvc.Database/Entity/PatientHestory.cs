@@ -8,6 +8,8 @@ namespace ProCareMvc.Database.Entity
 {
     public class PatientHestory
     {
+
+
         public Guid Record_ID { get; set; }
         public string Treatment { get; set; }
 
