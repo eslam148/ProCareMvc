@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace ProCareMvc.Database
+namespace ProCareMvc.Database.Entity
 {
-    public class User  : IdentityUser<Guid>
+    public class User : IdentityUser<Guid>
     {
-        
+
     }
 }

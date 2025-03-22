@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using ProCareMvc.Database;
+
 namespace ProCareMvc.presentation
 {
     public class Program
@@ -8,7 +11,10 @@ namespace ProCareMvc.presentation
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<AppDbContext>(optiens =>
+            {
+                optiens.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
