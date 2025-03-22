@@ -10,11 +10,9 @@ namespace ProCareMvc.Database.Entity
 {
     public class Drug:BaseEntity
     {
-        [Key]
-        public int DrugId { get; set; }
+        
 
-        [Required, StringLength(100)]
-        public string Name { get; set; }
+        
 
         [Required, StringLength(255)]
         public string Description { get; set; }
@@ -32,7 +30,7 @@ namespace ProCareMvc.Database.Entity
         public double ActiveIngredientConcentration { get; set; }
 
         [ForeignKey("Hospital")]
-        public int HospitalId { get; set; }
+        public Guid  HospitalId { get; set; }
         public Hospital Hospital { get; set; }
 
 

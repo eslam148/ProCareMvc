@@ -11,7 +11,7 @@ namespace ProCareMvc.Database.Entity
     public class TakeDrug
     {
         [Key]
-        public int TakeDrugId { get; set; }
+        public int  Id { get; set; }
 
         //[Required]
         //public DateTime TakenAt { get; set; }
@@ -20,11 +20,11 @@ namespace ProCareMvc.Database.Entity
         //public int Quantity { get; set; }
 
         [ForeignKey("Drug")]
-        public int DrugId { get; set; }
+        public Guid DrugId { get; set; }
         public Drug Drug { get; set; }
 
         [ForeignKey("PatientHestory")]
-        public int PatientHistoryId { get; set; }
+        public Guid PatientHistoryId { get; set; }
         public PatientHestory PatientHistory { get; set; }
     }
        

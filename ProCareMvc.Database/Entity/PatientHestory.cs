@@ -9,7 +9,8 @@ namespace ProCareMvc.Database.Entity
 {
     public class PatientHestory
     {
-        public int Record_ID { get; set; }
+        [Key]
+        public Guid Id{ get; set; }
         public string Treatment { get; set; }
 
         public string Diagnosis { get; set; }

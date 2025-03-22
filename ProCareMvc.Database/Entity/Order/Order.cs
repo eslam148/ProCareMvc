@@ -12,10 +12,10 @@ namespace ProCareMvc.Database.Entity
     public class Order
     {
 
-        public int TransactionId { get; set; }
+        public Guid Id { get; set; }
 
         [ForeignKey("Patient")]
-        public int PatientId { get; set; }
+        public Guid PatientId { get; set; }
 
         public string PaymentMethod { get; set; }
         
