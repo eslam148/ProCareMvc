@@ -11,7 +11,8 @@ namespace ProCareMvc.Database.Entity
 {
     public class Order
     {
-        public int TransactionId { get; set; } //Number of order
+
+        public int TransactionId { get; set; }
 
         [ForeignKey("Patient")]
         public int PatientId { get; set; }
@@ -22,8 +23,8 @@ namespace ProCareMvc.Database.Entity
         public DateTime DateOrder {  get; set; }
         public string Status {  get; set; }
 
-        public List<OrderItem> OrderItemList { get; set; }
-        public virtual Patient Patient { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
+        public Patient Patient { get; set; }
 
     }
 }
