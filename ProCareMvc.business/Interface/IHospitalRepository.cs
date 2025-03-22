@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProCareMvc.business.Repository.Intarface
+namespace ProCareMvc.business.Interface
 {
-    internal interface IDrugRepository
+    internal interface IHospitalRepository
     {
     }
 }
