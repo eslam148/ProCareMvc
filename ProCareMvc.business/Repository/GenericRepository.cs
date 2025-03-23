@@ -16,5 +16,17 @@ namespace ProCareMvc.business.Repository
         {
             return _appDbContext.Set<TEntity>().Find(id);
         }
+
+
+        public async Task InsertAsync(TEntity entity)
+        {
+            await _appDbContext.AddAsync(entity);
+        }
+        public async Task InsertAllAsync(ICollection<TEntity> entities)
+        {
+            await _appDbContext.AddRangeAsync(entities);
+        }
+
+
     }
 }
