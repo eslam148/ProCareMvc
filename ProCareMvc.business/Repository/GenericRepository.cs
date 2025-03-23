@@ -20,7 +20,7 @@ namespace ProCareMvc.business.Repository
             if (entity != null)
             {
                 dbSet.Remove(entity);
-                await _appDbContext.SaveChangesAsync();
+                
             }
 
         }
@@ -29,7 +29,7 @@ namespace ProCareMvc.business.Repository
         {
 
             dbSet.Update(entity);
-            await _appDbContext.SaveChangesAsync();
+            
 
         }
 
@@ -40,34 +40,23 @@ namespace ProCareMvc.business.Repository
                 .Take(pageSize)
                 .ToListAsync();
         }
-
-
-
         public async Task InsertAsync(TEntity entity)
         {
-            await _appDbContext.AddAsync(entity);
+            await _appDbContext.Set<TEntity>().AddAsync(entity);
         }
         public async Task InsertAllAsync(ICollection<TEntity> entities)
-        public async Task<TEntity?> GetByIdAsync(Guid id)
-        
         {
-         
-           
-                TEntity? element = await _appDbContext.Set<TEntity>().FindAsync(id);
-                return element;
-            
-  
+            await _appDbContext.Set<TEntity>().AddRangeAsync(entities);
 
         }
-
-
-        public  IQueryable<TEntity> GetAll()
-
+        public async Task<TEntity?> GetByIdAsync(Guid id)     
         {
-            await _appDbContext.AddRangeAsync(entities);
-        return   _appDbContext.Set<TEntity>();
-
-
+                TEntity? element = await _appDbContext.Set<TEntity>().FindAsync(id);
+                return element;
+        }
+        public  IQueryable<TEntity> GetAll()
+        {
+            return _appDbContext.Set<TEntity>();
         }
 
 

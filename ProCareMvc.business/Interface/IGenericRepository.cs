@@ -8,15 +8,19 @@ namespace ProCareMvc.business.Interface
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        //get all with pagination
-        Task<IEnumerable<TEntity>> GetAllPaginationAsync(int pageNumber, int pageSize);
+        // ExecuteDeleteAsync
+
+        Task ExecuteDeleteAsync(Guid id);
         //ExecuteUpdateAsync
         Task ExecuteUpdateAsync(TEntity entity);
-        // ExecuteDeleteAsync
-        Task ExecuteDeleteAsync(Guid id);
+        //get all with pagination
+        Task<IEnumerable<TEntity>> GetAllPaginationAsync(int pageNumber, int pageSize);
 
-        public Task<TEntity?> GetByIdAsync(Guid id);
-        public IQueryable<TEntity> GetAll();
+        Task InsertAsync(TEntity entity);
+
+        Task InsertAllAsync(ICollection<TEntity> entities);
+        Task<TEntity?> GetByIdAsync(Guid id);
+        IQueryable<TEntity> GetAll();
 
 
     }
