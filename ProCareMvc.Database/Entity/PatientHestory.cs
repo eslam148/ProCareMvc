@@ -21,7 +21,11 @@ namespace ProCareMvc.Database.Entity
 
         public DateTime NextAppointment { get; set; }
 
-        public ICollection<TakeDrug> TakeDrug { get; set; }
+        public Guid UserId { get; set; }
+
+        public User User { get; set; }
+
+     
 
     }
 }
