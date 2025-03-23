@@ -9,11 +9,10 @@ namespace ProCareMvc.business.Interface
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         //get all with pagination
-        Task<IEnumerable<TEntity>> GetAllPaginationAsync(int pageNumber, int pageSize);
+        Task<IQueryable<TEntity>> GetAllPaginationAsync(int pageNumber, int pageSize);
         //ExecuteUpdateAsync
         Task ExecuteUpdateAsync(TEntity entity);
         // ExecuteDeleteAsync
         Task ExecuteDeleteAsync(Guid id);
-
     }
 }

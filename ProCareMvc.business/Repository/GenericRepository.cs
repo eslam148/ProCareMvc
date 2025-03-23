@@ -20,7 +20,7 @@ namespace ProCareMvc.business.Repository
             if (entity != null)
             {
                 dbSet.Remove(entity);
-                await _appDbContext.SaveChangesAsync();
+               
             }
 
         }
@@ -29,16 +29,16 @@ namespace ProCareMvc.business.Repository
         {
 
             dbSet.Update(entity);
-            await _appDbContext.SaveChangesAsync();
+           
 
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllPaginationAsync(int pageNumber, int pageSize)
+       
+        public IQueryable<TEntity> GetAllPagination(int pageNumber, int pageSize)
         {
-            return await dbSet
+            return dbSet
                 .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+                .Take(pageSize);
         }
 
     }
