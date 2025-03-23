@@ -10,11 +10,17 @@ namespace ProCareMvc.business
 {
     public interface IUnitOfWork: IDisposable
     {
-        IOrderRepository OrderRepository { get; }
-        IOrderItemRepository OrderItemRepository { get; }
-        IDrugRepository drugRepository { get; }
-        IHospitalRepository HospitalRepository { get; }
-        ITakeDrugRepository takeDrugRepository { get; }
+        IOrderRepository Order { get; }
+        IOrderItemRepository OrderItem { get; }
+        IDrugRepository Drug { get; }
+        IHospitalRepository Hospital { get; }
+        ITakeDrugRepository TakeDrug { get; }
+        IAppointmentRepository  Appointment { get; }
+        IDepartmentRepository Department { get; }
+        IDoctorRepository Doctor { get; }
+        IPatientRepository Patient { get; }
+        ILabRepository Lab { get; }
+        ITestLabRepository TestLab { get; }
         int Save();
     }
 }

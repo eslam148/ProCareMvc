@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProCareMvc.business;
 using ProCareMvc.Database;
+using ProCareMvc.Database.Entity;
+using ProCareMvc.presentation.Mapper;
 
 namespace ProCareMvc.presentation
 {
@@ -16,9 +19,10 @@ namespace ProCareMvc.presentation
             {
                 optiens.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
             });
+            builder.Services.AddIdentity<User, IdentityRole<Guid>>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-           
+            builder.Services.AddAutoMapper(typeof(MapperProfile));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

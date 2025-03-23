@@ -26,8 +26,10 @@ namespace ProCareMvc.Database
              .HasValue<AppointmentOrderItem>(OrderItemType.Appointments)
              .HasValue<DrugOrderItem>(OrderItemType.Drugs)
              .HasValue<LabOrderItem>(OrderItemType.Labs);
+
            
             base.OnModelCreating(builder);
         }
+
     }
 }

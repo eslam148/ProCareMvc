@@ -20,7 +20,7 @@ namespace ProCareMvc.business.Repository
             if (entity != null)
             {
                 dbSet.Remove(entity);
-               
+                
             }
 
         }
@@ -29,7 +29,7 @@ namespace ProCareMvc.business.Repository
         {
 
             dbSet.Update(entity);
-           
+            await _appDbContext.SaveChangesAsync();
 
         }
 
@@ -41,5 +41,6 @@ namespace ProCareMvc.business.Repository
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize);
         }
+
     }
 }
