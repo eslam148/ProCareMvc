@@ -12,9 +12,25 @@ namespace ProCareMvc.business.Repository
             _appDbContext = appDbContext;
         }
 
-        public TEntity GetById(Guid id)
+        public async Task<TEntity?> GetByIdAsync(Guid id)
+        
         {
-            return _appDbContext.Set<TEntity>().Find(id);
+         
+           
+                TEntity? element = await _appDbContext.Set<TEntity>().FindAsync(id);
+                return element;
+            
+  
+
+        }
+
+
+        public  IQueryable<TEntity> GetAll()
+
+        {
+        return   _appDbContext.Set<TEntity>();
+
+
         }
     }
 }

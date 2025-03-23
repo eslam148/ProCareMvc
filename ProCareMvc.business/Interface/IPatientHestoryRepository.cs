@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProCareMvc.Database.Entity;
 
 namespace ProCareMvc.business.Interface
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IPatientHestoryRepository : IGenericRepository<PatientHestory>
     {
-        public Task<TEntity?> GetByIdAsync(Guid id);
-        public IQueryable<TEntity> GetAll();
-
 
     }
 }
