@@ -22,7 +22,7 @@ namespace ProCareMvc.business
 
         public IHospitalRepository Hospital { get; } = new HospitalRepository(appContext);
 
-        public ITakeDrugRepository takeDrug { get; } = new TakeDrugRepository(appContext);
+        public ITakeDrugRepository TakeDrug { get; } = new TakeDrugRepository(appContext);
 
  
         public IAppointmentRepository Appointment { get; } = new AppointmentRepository(appContext);
