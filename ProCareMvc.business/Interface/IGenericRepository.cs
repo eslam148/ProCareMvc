@@ -15,5 +15,9 @@ namespace ProCareMvc.business.Interface
         // ExecuteDeleteAsync
         Task ExecuteDeleteAsync(Guid id);
 
+        public Task<TEntity?> GetByIdAsync(Guid id);
+        public IQueryable<TEntity> GetAll();
+
+
     }
 }

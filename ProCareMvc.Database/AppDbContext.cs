@@ -30,5 +30,6 @@ namespace ProCareMvc.Database
            
             base.OnModelCreating(builder);
         }
+
     }
 }

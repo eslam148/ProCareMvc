@@ -48,8 +48,26 @@ namespace ProCareMvc.business.Repository
             await _appDbContext.AddAsync(entity);
         }
         public async Task InsertAllAsync(ICollection<TEntity> entities)
+        public async Task<TEntity?> GetByIdAsync(Guid id)
+        
+        {
+         
+           
+                TEntity? element = await _appDbContext.Set<TEntity>().FindAsync(id);
+                return element;
+            
+  
+
+        }
+
+
+        public  IQueryable<TEntity> GetAll()
+
         {
             await _appDbContext.AddRangeAsync(entities);
+        return   _appDbContext.Set<TEntity>();
+
+
         }
 
 
