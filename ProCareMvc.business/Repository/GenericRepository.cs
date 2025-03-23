@@ -34,12 +34,12 @@ namespace ProCareMvc.business.Repository
         }
 
        
-        public IQueryable<TEntity> GetAllPagination(int pageNumber, int pageSize)
+
+        public Task<IQueryable<TEntity>> GetAllPaginationAsync(int pageNumber, int pageSize)
         {
-            return dbSet
+            return (Task<IQueryable<TEntity>>)dbSet
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize);
         }
-
     }
 }
