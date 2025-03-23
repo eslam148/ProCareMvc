@@ -41,5 +41,17 @@ namespace ProCareMvc.business.Repository
                 .ToListAsync();
         }
 
+
+
+        public async Task InsertAsync(TEntity entity)
+        {
+            await _appDbContext.AddAsync(entity);
+        }
+        public async Task InsertAllAsync(ICollection<TEntity> entities)
+        {
+            await _appDbContext.AddRangeAsync(entities);
+        }
+
+
     }
 }
