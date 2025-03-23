@@ -25,7 +25,12 @@ namespace ProCareMvc.Database.Entity
 
         public User User { get; set; }
 
+   
+
      
 
     }
+
+
+
 }

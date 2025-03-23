@@ -17,6 +17,41 @@ namespace ProCareMvc.Database
         public bool IsDeleted { get; set; } = false;
 
 
-
-    }
 }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
