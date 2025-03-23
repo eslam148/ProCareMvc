@@ -10,29 +10,32 @@ using ProCareMvc.Database;
 
 namespace ProCareMvc.business
 {
-    public class UnitOfWork:IUnitOfWork
+    public class UnitOfWork(AppDbContext appContext) : IUnitOfWork
     {
-        private AppDbContext context;
+        private AppDbContext context = appContext;
 
-        public IOrderRepository OrderRepository {get;}
+        public IOrderRepository Order { get; } = new OrderRepository(appContext);
 
-        public IOrderItemRepository OrderItemRepository {get;}
+        public IOrderItemRepository OrderItem { get; } = new OrderItemRepository(appContext);
 
-        public IDrugRepository drugRepository {get;}
+        public IDrugRepository Drug { get; } = new DrugRepository(appContext);
 
-        public IHospitalRepository HospitalRepository {get;}
+        public IHospitalRepository Hospital { get; } = new HospitalRepository(appContext);
 
-        public ITakeDrugRepository takeDrugRepository {get;}
+        public ITakeDrugRepository takeDrug { get; } = new TakeDrugRepository(appContext);
 
-        public UnitOfWork(AppDbContext appContext)
-        {
-            context = appContext;
-            OrderRepository = new OrderRepository(appContext);
-            OrderItemRepository = new OrderItemRepository(appContext);
-            drugRepository = new DrugRepository(appContext);
-            HospitalRepository = new HospitalRepository(appContext);
-            takeDrugRepository = new TakeDrugRepository(appContext);
-        }
+ 
+        public IAppointmentRepository Appointment { get; } = new AppointmentRepository(appContext);
+
+        public IDepartmentRepository Department { get; } = new DepartmentRepository(appContext);
+
+        public IDoctorRepository Doctor { get; } = new DoctorRepository(appContext);
+
+        public IPatientRepository Patient { get; } = new PatientRepository(appContext);
+
+        public ILabRepository Lab { get; } = new LabRepository(appContext);
+
+        public ITestLabRepository TestLab { get; } = new TestLabRepository(appContext);
 
         public void Dispose()
         {
