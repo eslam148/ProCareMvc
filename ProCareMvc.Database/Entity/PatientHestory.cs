@@ -10,7 +10,7 @@ namespace ProCareMvc.Database.Entity
     {
 
 
-        public Guid Record_ID { get; set; }
+        public Guid Id { get; set; }
         public string Treatment { get; set; }
 
         public string Diagnosis { get; set; }
