@@ -19,7 +19,8 @@ namespace ProCareMvc.presentation
             {
                 optiens.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
             });
-            builder.Services.AddIdentity<User, IdentityRole<Guid>>();
+
+            builder.Services.AddIdentity<User, IdentityRole<Guid>>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(typeof(MapperProfile));
