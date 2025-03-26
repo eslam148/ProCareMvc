@@ -12,8 +12,8 @@ using ProCareMvc.Database;
 namespace ProCareMvc.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250326140424_initss")]
-    partial class initss
+    [Migration("20250326145625_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
