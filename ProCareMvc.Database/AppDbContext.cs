@@ -17,7 +17,7 @@ namespace ProCareMvc.Database
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<TestLab> TestLabs { get; set; }
         public AppDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
-
+    
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<OrderItem>()

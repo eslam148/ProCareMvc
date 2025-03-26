@@ -19,18 +19,13 @@ namespace ProCareMvc.business.Repository
             var entity = await dbSet.FindAsync(id);
             if (entity != null)
             {
-                dbSet.Remove(entity);
-                
+                dbSet.Remove(entity); 
             }
-
         }
         //ExecuteUpdateAsync
         public async Task ExecuteUpdateAsync(TEntity entity)
         {
-
             dbSet.Update(entity);
-            
-
         }
 
         public async Task<IEnumerable<TEntity>> GetAllPaginationAsync(int pageNumber, int pageSize)
