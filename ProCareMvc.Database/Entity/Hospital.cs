@@ -11,10 +11,6 @@ namespace ProCareMvc.Database.Entity
     public class Hospital:BaseEntity
     {
 
-       
-
-      
-
         [Required, StringLength(200)]
         public string Address { get; set; }
 

@@ -25,7 +25,7 @@ namespace ProCareMvc.business.Repository
         //ExecuteUpdateAsync
         public async Task ExecuteUpdateAsync(TEntity entity)
         {
-            dbSet.Update(entity);
+            _appDbContext.Update(entity);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllPaginationAsync(int pageNumber, int pageSize)

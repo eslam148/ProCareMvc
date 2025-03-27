@@ -42,7 +42,7 @@ namespace ProCareMvc.presentation.Controllers
                 {
                     // 2) Add To cookies
                     await userManager.AddToRoleAsync(user, "Admin");
-                    await signInManeg.SignInAsync(user, false );    //create cookies => Login
+                    //await signInManeg.SignInAsync(user, false);    //create cookies => Login
                     return RedirectToAction("Login" , "Account");
                 }
                 foreach (var item in result.Errors)

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ProCareMvc.presentation.Models.HospitalVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Hospital List</h1>
+
+<a asp-action="Create" class="btn btn-primary">Add New Hospital</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hospital in Model)
+        {
+            <tr>
+                <td>@hospital.Name</td>
+                <td>@hospital.Address</td>
+                <td>@hospital.PhoneNumber</td>
+                <td>@hospital.Email</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@hospital.ID" class="btn btn-warning">Edit</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
