@@ -15,6 +15,14 @@ namespace ProCareMvc.presentation
             {
                 optiens.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
             });
+            builder.Services.AddIdentity<User, IdentityRole<Guid>>()
+           .AddEntityFrameworkStores<AppDbContext>() // ??? ??? Identity ?? ??? DbContext
+         .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddAutoMapper(typeof(MapperProfile));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,6 +34,7 @@ namespace ProCareMvc.presentation
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
