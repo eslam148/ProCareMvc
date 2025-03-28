@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace ProCareMvc.Database.Entity
     {
 
 
-        public Guid Record_ID { get; set; }
+        public Guid Id { get; set; }
         public string Treatment { get; set; }
 
         public string Diagnosis { get; set; }
@@ -25,7 +26,12 @@ namespace ProCareMvc.Database.Entity
 
         public User User { get; set; }
 
+   
+
      
 
     }
+
+
+
 }

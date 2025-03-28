@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ProCareMvc.business;
 using ProCareMvc.Database;
+using ProCareMvc.Database.Entity;
+using ProCareMvc.presentation.Mapper;
 
 namespace ProCareMvc.presentation
 {
