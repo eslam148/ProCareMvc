@@ -9,6 +9,7 @@ namespace ProCareMvc.presentation.Models
         [DataType(DataType.Password)]
         [Display(Name = "Old Password")]
         public string OldPassword { get; set; }
+      
 
         [Required(ErrorMessage = "New Password is required")]
         [DataType(DataType.Password)]

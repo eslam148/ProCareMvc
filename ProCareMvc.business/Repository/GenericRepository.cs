@@ -58,6 +58,10 @@ namespace ProCareMvc.business.Repository
         {
             return _appDbContext.Set<TEntity>();
         }
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _appDbContext.SaveChangesAsync();
+        }
 
 
     }

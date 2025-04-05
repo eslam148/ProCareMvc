@@ -22,6 +22,8 @@ namespace ProCareMvc.business.Interface
         Task<TEntity?> GetByIdAsync(Guid id);
         IQueryable<TEntity> GetAll();
 
+        Task<int> SaveChangesAsync();
+
 
     }
 }
