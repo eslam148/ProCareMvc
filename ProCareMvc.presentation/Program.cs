@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ProCareMvc.business;
 using ProCareMvc.Database;
 using ProCareMvc.Database.Entity;
+using ProCareMvc.presentation.Hub;
 using ProCareMvc.presentation.Mapper;
 using ProCareMvc.presentation.Services;
 
@@ -32,6 +33,7 @@ namespace ProCareMvc.presentation
                }).AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.AddSignalR();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(typeof(MapperProfile));
 
@@ -51,7 +53,7 @@ namespace ProCareMvc.presentation
 
             //app.UseAuthentication();  
             app.UseAuthorization();
-
+            app.MapHub<NotifyHub>("/notifyhub");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
