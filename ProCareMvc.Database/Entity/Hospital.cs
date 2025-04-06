@@ -19,8 +19,9 @@ namespace ProCareMvc.Database.Entity
 
         [Required, EmailAddress]
         public string Email { get; set; }
-
+        
         public ICollection<Drug> Drugs { get; set; }
+        public ICollection<Department> Departments { get; set; }
 
     }
 }

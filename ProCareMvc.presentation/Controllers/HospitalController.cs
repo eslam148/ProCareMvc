@@ -53,7 +53,6 @@ namespace ProCareMvc.presentation.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-
             return View();
         }
 
@@ -69,6 +68,7 @@ namespace ProCareMvc.presentation.Controllers
                 hospitalToDB.Name = hosptalReq.Name;
                 hospitalToDB.Email = hosptalReq.Email;
                 hospitalToDB.PhoneNumber = hosptalReq.PhoneNumber;
+                hospitalToDB.Departments = hosptalReq.Departments;
 
                 await unitOfWork.Hospital.InsertAsync(hospitalToDB);
                 unitOfWork.Save();

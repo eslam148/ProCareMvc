@@ -1,0 +1,69 @@
+﻿@model ProCareMvc.presentation.Models.DepartmentVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<br />
+<br />
+<br />
+<br />
+
+<div class="container mt-5">
+    <h1>Edit Department</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ManagerId" class="control-label">Manager</label>
+                    <select asp-for="ManagerId" class="form-control">
+                        <option value="">-- Select Manager --</option>
+                        @foreach (var doctor in Model.Doctors)
+                        {
+                            <option value="@doctor.Id" selected="@(doctor.Id == Model.ManagerId)">
+                                @doctor.FirstName
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="ManagerId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="HospitalId" class="control-label">Hospital</label>
+                    <select asp-for="HospitalId" class="form-control">
+                        <option value="">-- Select Hospital --</option>
+                        @foreach (var hospital in Model.Hospitals)
+                        {
+                            <option value="@hospital.Id" selected="@(hospital.Id == Model.HospitalId)">
+                                @hospital.Name
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="HospitalId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProCareMvc.Database.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProCareMvc.presentation.Models
 {
@@ -14,5 +15,6 @@ namespace ProCareMvc.presentation.Models
 
         [Required, EmailAddress]
         public string Email { get; set; }
+        public List<Department> Departments { get; set; }
     }
 }
