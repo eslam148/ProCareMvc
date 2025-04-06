@@ -1,0 +1,23 @@
+﻿@model EmailViewModel
+
+
+<section class="hero-wrap js-fullheight" style="background-image: url('images/bg_3.jpg');" data-section="home" data-stellar-background-ratio="0.5">
+     
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+            <form method="post" asp-action="SendEmail" class="mt-5">
+					<div>
+						<lable asp-for ="To"></lable>
+						<input class="form form-control" asp-for="To" />
+
+					</div>
+					<div>
+						<lable asp-for="Body"></lable>
+						<input class="form form-control" asp-for="Body" />
+
+					</div>
+					<input type="submit" class="btn btn-primary" value="Send" />
+				 </form>
+        </div>
+    </div>
+</section>
