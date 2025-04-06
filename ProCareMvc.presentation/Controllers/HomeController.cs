@@ -11,19 +11,19 @@ namespace ProCareMvc.presentation.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly EmailServices emailServices;
+        
 
         public IUnitOfWork UnitOfWork { get; }
         public IMapper Mapper { get; }
 
-        public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork,IMapper mapper, EmailServices emailServices)
+        public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork,IMapper mapper)
         {
             _logger = logger;
 
             UnitOfWork = unitOfWork;
 
             Mapper = mapper;
-            this.emailServices = emailServices;
+
         }
 
         public async Task<IActionResult> Index(DepartmentVM vm)
@@ -45,19 +45,19 @@ namespace ProCareMvc.presentation.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public ActionResult SendEmail()
-        {
-            return View(new EmailViewModel());
-        }
+       // public ActionResult SendEmail()
+       // {
+       ////     return View(new EmailViewModel());
+       // }
 
-        [HttpPost]
-        public async Task<ActionResult> SendEmail(EmailViewModel model)
-        {
+      //  [HttpPost]
+        //public async Task<ActionResult> SendEmail(EmailViewModel model)
+        //{
             
-                emailServices.sendEmail(model.To,"Test Email", model.Body);
-                ViewBag.Message = "Email sent successfully!";
+        //        emailServices.sendEmail(model.To,"Test Email", model.Body);
+        //        ViewBag.Message = "Email sent successfully!";
             
-            return View(model);
-        }
+        //    return View(model);
+        //}
     }
 }
