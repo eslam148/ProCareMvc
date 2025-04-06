@@ -16,42 +16,5 @@ namespace ProCareMvc.Database
         public DateTime ModifiedAt { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; } = false;
 
-
+    }
 }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

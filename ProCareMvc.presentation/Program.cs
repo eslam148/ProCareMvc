@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ProCareMvc.business;
 using ProCareMvc.Database;
 using ProCareMvc.Database.Entity;
@@ -22,10 +23,14 @@ namespace ProCareMvc.presentation
                 options.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
             });
 
-            builder.Services.AddIdentity<User, IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
+        
             builder.Services.AddTransient<EmailServices>();
+            builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
+               {
+                   options.Password.RequireDigit = false;
+                   options.Password.RequireNonAlphanumeric = false;
+               }).AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(typeof(MapperProfile));
