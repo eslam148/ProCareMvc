@@ -9,6 +9,7 @@ namespace ProCareMvc.presentation.Mapper
         public MapperProfile()
         {
             CreateMap<Department,DepartmentVM>().ReverseMap();
+            CreateMap<Hospital, HospitalVM>().ReverseMap();
            
            
 

@@ -11,10 +11,6 @@ namespace ProCareMvc.Database.Entity
     public class Hospital:BaseEntity
     {
 
-       
-
-      
-
         [Required, StringLength(200)]
         public string Address { get; set; }
 
@@ -23,8 +19,9 @@ namespace ProCareMvc.Database.Entity
 
         [Required, EmailAddress]
         public string Email { get; set; }
-
+        
         public ICollection<Drug> Drugs { get; set; }
+        public ICollection<Department> Departments { get; set; }
 
     }
 }

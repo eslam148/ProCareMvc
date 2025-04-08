@@ -10,10 +10,7 @@ namespace ProCareMvc.Database.Entity
 {
     public class Department:BaseEntity
     {
-        [Key]
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-
+        
         [ForeignKey(nameof(Manager))]
         public Guid ManagerId { get; set; }
         public Doctor Manager { get; set; } 

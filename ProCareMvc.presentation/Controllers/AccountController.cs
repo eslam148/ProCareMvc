@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using ProCareMvc.business;
 using ProCareMvc.Database.Entity;
 using ProCareMvc.presentation.Models;
+using System.IO;
+using ProCareMvc.Database.Entity;
 
 namespace ProCareMvc.presentation.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager; // استخدام User بدلاً من ApplicationUser
         private readonly SignInManager<User> _signInManager;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
@@ -25,76 +29,39 @@ namespace ProCareMvc.presentation.Controllers
         {
             return View();
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+
+        //    }
 
 
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-
-            }
-
-
-            User user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                RedirectToAction("Index", "Home");
-            }
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        RedirectToAction("Index", "Home");
+        //    }
 
 
-            IdentityResult result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
-            {
+        //    var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        //    if (result.Succeeded)
+        //    {
 
-                await _signInManager.RefreshSignInAsync(user);
-                return RedirectToAction("Index", "Home");
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-            return View(model);
+        //        await _signInManager.RefreshSignInAsync(user);
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError(string.Empty, error.Description);
+        //    }
+        //    return View(model);
 
 
 
-        }
-
-
-        public IActionResult ForgetPassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var user = await _userManager.FindByEmailAsync(model.Email);
-
-            if (user == null)
-            {
-                ModelState.AddModelError(string.Empty, "No user found with this email.");
-                return View(model);
-            }
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var resetPasswordLink = Url.Action("ResetPassword", "Account", new { token, email = model.Email }, Request.Scheme);
-
-          //  await _emailService.SendEmailAsync(model.Email, "Reset your password", $"Click here to reset: {resetPasswordLink}");
-
-            ViewBag.Message = "If the email exists, a reset link has been sent.";
-            return View(model);
-        }
-
-
-
-
-
+        //}
 
     }
 }
