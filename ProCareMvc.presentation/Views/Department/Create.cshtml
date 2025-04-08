@@ -27,13 +27,13 @@
                     <label asp-for="ManagerId" class="control-label">Manager</label>
                     <select asp-for="ManagerId" class="form-control">
                         <option value="">-- Select Manager --</option>
-                        @if (Model.Doctors != null)
+                      @*   @if (Model.Doctors != null)
                         {
                             foreach (var doctor in Model.Doctors)
                             {
                                 <option value="@doctor.Id">@doctor.FirstName</option>
                             }
-                        }
+                        } *@
                     </select>
                     <span asp-validation-for="ManagerId" class="text-danger"></span>
                 </div>

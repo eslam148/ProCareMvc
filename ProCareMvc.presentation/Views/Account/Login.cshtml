@@ -13,16 +13,16 @@
     <div class="col-md-4">
         <form asp-action="PatientLogin">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
+    <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+    </div>
+    <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
@@ -31,11 +31,12 @@
             <div class="form-group">
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
-        </form>
+</form>
     </div>
 </div>
 
 <div>
     <a asp-action="Register">Create Account</a>
 </div>
-<partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
+}

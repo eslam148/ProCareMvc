@@ -21,6 +21,9 @@ namespace ProCareMvc.business
         IPatientRepository Patient { get; }
         ILabRepository Lab { get; }
         ITestLabRepository TestLab { get; }
+        IUserRepository User { get; }
+       
+
         int Save();
     }
 }

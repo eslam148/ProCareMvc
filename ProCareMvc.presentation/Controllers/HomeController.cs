@@ -30,7 +30,7 @@ namespace ProCareMvc.presentation.Controllers
         {
 
             Department d = Mapper.Map<Department>(vm);
-            await UnitOfWork.Department.InsertAsync(d);
+           await  UnitOfWork.Department.InsertAsync(d);
             return View();
         }
 

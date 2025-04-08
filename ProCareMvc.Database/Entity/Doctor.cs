@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProCareMvc.Database.Entity
 {
-    public class Doctor:User
+    public class Doctor
     {
         [Key]
         public Guid Id { get; set; }

@@ -1,0 +1,67 @@
+﻿@model UserProfileViewModel
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <div class="text-center">
+                    <img src="~/Images/@Model.ImageProfileUrl" class="rounded-circle mb-3" width="150" height="150" alt="Profile Picture" />
+                    <h4>@Model.FirstName @Model.LastName</h4>
+                    <p>@Model.Email</p>
+                </div>
+
+                <hr />
+
+                <dl class="row">
+                    <dt class="col-sm-4">Username</dt>
+                    <dd class="col-sm-8">@Model.UserName</dd>
+
+                    <dt class="col-sm-4">Birthdate</dt>
+                    <dd class="col-sm-8">@Model.BirthDate</dd>
+
+                    <dt class="col-sm-4">Gender</dt>
+                    <dd class="col-sm-8">@Model.Gender</dd>
+                </dl>
+
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="file" name="profileImage" class="form-control mb-2" required />
+                    <button type="submit" class="btn btn-primary">Upload New Profile Picture</button>
+                </form>
+                <div id="uploadStatus" class="mt-2 text-success"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#uploadForm').submit(function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: '@Url.Action("UploadProfileImage", "Account")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        $('#uploadStatus').text("Profile image updated successfully!");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function () {
+                        $('#uploadStatus').text("Error while uploading.").addClass("text-danger");
+                    }
+                });
+            });
+        });
+    </script>
+}
