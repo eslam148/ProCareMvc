@@ -12,8 +12,8 @@ using ProCareMvc.Database;
 namespace ProCareMvc.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250326145625_init")]
-    partial class init
+    [Migration("20250407005149_farah")]
+    partial class farah
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -532,6 +532,10 @@ namespace ProCareMvc.Database.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageProfileUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()

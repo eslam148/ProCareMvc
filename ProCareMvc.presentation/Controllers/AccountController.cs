@@ -5,8 +5,8 @@ using ProCareMvc.business.Interface;
 using ProCareMvc.Database.Entity;
 using ProCareMvc.Database.Utility;
 using ProCareMvc.presentation.Models;
-using ProCareMvc.presentation.ViewModels;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signInManager, UserManager<User> userManager, RoleManager<IdentityRole<Guid>> roleManager) : Controller
@@ -84,4 +84,61 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
         }
         return View(model);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> UserProfile()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+          var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var vm = new UserProfileViewModel
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    ImageProfileUrl = user.ImageProfileUrl,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    BirthDate = user.BirthDate,
+                    Gender = user.Gender
+                };
+                return View(vm);
+       
+        }
+        return RedirectToAction("Login");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UploadProfileImage(IFormFile profileImage)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+      
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user != null)
+            {
+                var fileName = $"{Guid.NewGuid()}_{profileImage.FileName}";
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", fileName);
+
+                using (var stream = new FileStream(uploadPath, FileMode.Create))
+                {
+                    await profileImage.CopyToAsync(stream);
+                }
+
+
+                user.ImageProfileUrl = fileName;
+               await _userManager.UpdateAsync(user);
+
+            return Ok();
+            }
+        
+
+        return BadRequest();
+    }
+
+
+
+
 }

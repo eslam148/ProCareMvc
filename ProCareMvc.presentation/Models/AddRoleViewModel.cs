@@ -1,4 +1,4 @@
-﻿namespace ProCareMvc.presentation.ViewModels
+﻿namespace ProCareMvc.presentation.Models
 {
     public class AddRoleViewModel
     {
