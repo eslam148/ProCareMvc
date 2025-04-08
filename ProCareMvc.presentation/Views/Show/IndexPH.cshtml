@@ -1,0 +1,122 @@
+﻿ @model IEnumerable<ProCareMvc.presentation.Models.PatientHestoryVM>
+
+@{
+    ViewData["Title"] = "IndexPH";
+}
+<br />
+<br />
+<br />
+<br />
+<h1>IndexPH</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            
+            <th>
+                <label asp-for="@Model.First().Treatment"></label>
+            </th>
+            <th>
+                <label asp-for="@Model.First().Diagnosis"></label>
+            </th>
+            <th>
+                <label asp-for="@Model.First().Medication"></label>
+            </th>
+            <th>
+                <label asp-for="@Model.First().VisitDate"></label>
+            </th>
+            <th>
+                <label asp-for="@Model.First().NextAppointment"></label>
+            </th>
+            <th>
+                <label asp-for="@Model.First().UserId"></label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <span asp-for="@item.Id">@item.Id</span>
+                </td>
+                <td>
+                    <span asp-for="@item.Treatment">@item.Treatment</span>
+                </td>
+                <td>
+                    <span asp-for="@item.Diagnosis">@item.Diagnosis</span>
+                </td>
+                <td>
+                    <span asp-for="@item.Medication">@item.Medication</span>
+                </td>
+                <td>
+                    <span asp-for="@item.VisitDate">@item.VisitDate</span>
+                </td>
+                <td>
+                    <span asp-for="@item.NextAppointment">@item.NextAppointment</span>
+                </td>
+                <td>
+                    <span asp-for="@item.UserId">@item.UserId</span>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> 
+
+@* @model IEnumerable<ProCareMvc.presentation.Models.PatientHestoryVM>
+
+@{
+    ViewData["Title"] = "IndexPH";
+}
+<br />
+<br />
+<br />
+<br />
+
+<h1 class="my-4">Patient History List</h1>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Add New Record</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th><label asp-for="@Model.First().Id">Id</label></th>
+            <th><label asp-for="@Model.First().Treatment">Treatment</label></th>
+            <th><label asp-for="@Model.First().Diagnosis">Diagnosis</label></th>
+            <th><label asp-for="@Model.First().Medication">Medication</label></th>
+            <th><label asp-for="@Model.First().VisitDate">Visit Date</label></th>
+            <th><label asp-for="@Model.First().NextAppointment">Next Appointment</label></th>
+            <th><label asp-for="@Model.First().UserId">User</label></th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Treatment</td>
+                <td>@item.Diagnosis</td>
+                <td>@item.Medication</td>
+                <td>@item.VisitDate.ToShortDateString()</td>
+                <td>@item.NextAppointment.ToShortDateString()</td>
+                <td>@item.UserId</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-success">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+ *@

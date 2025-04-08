@@ -60,10 +60,13 @@ namespace ProCareMvc.presentation.Controllers
         // GET: DepartmentController/Create
         public IActionResult Create()
         {
+            string guidString = "5b41fb0b-07c6-4436-0cfa-08dd6bd779df";
+            guidString = guidString.Replace(" ", "");
             DepartmentVM model = new DepartmentVM
             {
                 Hospitals = unitOfWork.Hospital.GetAll().ToList(),
-                Doctors = unitOfWork.Doctor.GetAll().ToList()
+                Doctors = unitOfWork.Doctor.GetAll().ToList(),
+                ManagerId = Guid.Parse(guidString)
             };
             return View(model);
         }
@@ -75,22 +78,17 @@ namespace ProCareMvc.presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+               
+                Department DeptToDB = new Department
                 {
-                    Department DeptToDB = new Department
-                    {
-                        Name = deptFromReq.Name,
-                        HospitalId = deptFromReq.HospitalId,
-                        ManagerId = deptFromReq.ManagerId,
-                    };
-                    await unitOfWork.Department.InsertAsync(DeptToDB);
-                    unitOfWork.Save();
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "An error occurred while saving: " + ex.Message);
-                }
+                    Name = deptFromReq.Name,
+                    HospitalId = deptFromReq.HospitalId,
+                    ManagerId = deptFromReq.ManagerId,
+                };
+                await unitOfWork.Department.InsertAsync(DeptToDB);
+                unitOfWork.Save();
+                return RedirectToAction("Index");
+                                
             }
             deptFromReq.Hospitals = unitOfWork.Hospital.GetAll().ToList();
             deptFromReq.Doctors = unitOfWork.Doctor.GetAll().ToList();
