@@ -12,6 +12,7 @@ namespace ProCareMvc.business.Repository
 {
     public class PatientHestoryRepository : GenericRepository<PatientHestory>, IPatientHestoryRepository
     {
+
         public PatientHestoryRepository(AppDbContext appDbContext) : base(appDbContext)
         {
 
