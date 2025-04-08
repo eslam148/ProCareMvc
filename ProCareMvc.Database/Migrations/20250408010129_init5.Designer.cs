@@ -12,8 +12,8 @@ using ProCareMvc.Database;
 namespace ProCareMvc.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250407005149_farah")]
-    partial class farah
+    [Migration("20250408010129_init5")]
+    partial class init5
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,6 +235,45 @@ namespace ProCareMvc.Database.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("ProCareMvc.Database.Entity.Doctor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("HospitalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("YearsOfExperience")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("HospitalId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Doctors");
+                });
+
             modelBuilder.Entity("ProCareMvc.Database.Entity.Drug", b =>
                 {
                     b.Property<Guid>("Id")
@@ -285,7 +324,7 @@ namespace ProCareMvc.Database.Migrations
 
                     b.HasIndex("OrderItemId");
 
-                    b.ToTable("Drug");
+                    b.ToTable("Drugs");
                 });
 
             modelBuilder.Entity("ProCareMvc.Database.Entity.Hospital", b =>
@@ -470,7 +509,30 @@ namespace ProCareMvc.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PatientHestory");
+                    b.ToTable("PatientHestories");
+                });
+
+            modelBuilder.Entity("ProCareMvc.Database.Entity.TakeDrug", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("DrugId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PatientHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DrugId");
+
+                    b.HasIndex("PatientHistoryId");
+
+                    b.ToTable("TakeDrug");
                 });
 
             modelBuilder.Entity("ProCareMvc.Database.Entity.TestLab", b =>
@@ -513,11 +575,6 @@ namespace ProCareMvc.Database.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -585,10 +642,6 @@ namespace ProCareMvc.Database.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("ProCareMvc.Database.Entity.AppointmentOrderItem", b =>
@@ -625,42 +678,6 @@ namespace ProCareMvc.Database.Migrations
                     b.HasIndex("LabId");
 
                     b.HasDiscriminator().HasValue(3);
-                });
-
-            modelBuilder.Entity("ProCareMvc.Database.Entity.Doctor", b =>
-                {
-                    b.HasBaseType("ProCareMvc.Database.Entity.User");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("HospitalId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("YearsOfExperience")
-                        .HasColumnType("int");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("HospitalId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.HasDiscriminator().HasValue("Doctor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -740,7 +757,7 @@ namespace ProCareMvc.Database.Migrations
             modelBuilder.Entity("ProCareMvc.Database.Entity.Department", b =>
                 {
                     b.HasOne("ProCareMvc.Database.Entity.Hospital", "Hospital")
-                        .WithMany()
+                        .WithMany("Departments")
                         .HasForeignKey("HospitalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -754,6 +771,33 @@ namespace ProCareMvc.Database.Migrations
                     b.Navigation("Hospital");
 
                     b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("ProCareMvc.Database.Entity.Doctor", b =>
+                {
+                    b.HasOne("ProCareMvc.Database.Entity.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProCareMvc.Database.Entity.Hospital", "Hospital")
+                        .WithMany()
+                        .HasForeignKey("HospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProCareMvc.Database.Entity.User", "User")
+                        .WithOne("Doctor")
+                        .HasForeignKey("ProCareMvc.Database.Entity.Doctor", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Hospital");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProCareMvc.Database.Entity.Drug", b =>
@@ -822,6 +866,25 @@ namespace ProCareMvc.Database.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ProCareMvc.Database.Entity.TakeDrug", b =>
+                {
+                    b.HasOne("ProCareMvc.Database.Entity.Drug", "Drug")
+                        .WithMany()
+                        .HasForeignKey("DrugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProCareMvc.Database.Entity.PatientHestory", "PatientHistory")
+                        .WithMany()
+                        .HasForeignKey("PatientHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drug");
+
+                    b.Navigation("PatientHistory");
+                });
+
             modelBuilder.Entity("ProCareMvc.Database.Entity.TestLab", b =>
                 {
                     b.HasOne("ProCareMvc.Database.Entity.Lab", "Lab")
@@ -874,35 +937,10 @@ namespace ProCareMvc.Database.Migrations
                     b.Navigation("Lab");
                 });
 
-            modelBuilder.Entity("ProCareMvc.Database.Entity.Doctor", b =>
-                {
-                    b.HasOne("ProCareMvc.Database.Entity.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProCareMvc.Database.Entity.Hospital", "Hospital")
-                        .WithMany()
-                        .HasForeignKey("HospitalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProCareMvc.Database.Entity.User", "User")
-                        .WithOne("Doctor")
-                        .HasForeignKey("ProCareMvc.Database.Entity.Doctor", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Hospital");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ProCareMvc.Database.Entity.Hospital", b =>
                 {
+                    b.Navigation("Departments");
+
                     b.Navigation("Drugs");
                 });
 
