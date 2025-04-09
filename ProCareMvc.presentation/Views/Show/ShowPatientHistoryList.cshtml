@@ -1,16 +1,16 @@
 ﻿ @model IEnumerable<ProCareMvc.presentation.Models.PatientHestoryVM>
 
 @{
-    ViewData["Title"] = "IndexPH";
+    ViewData["Title"] = "ShowPatientHistoryList";
 }
 <br />
 <br />
 <br />
 <br />
-<h1>IndexPH</h1>
+<h1>ShowPatientHistoryList</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="CreatePatientHistoryRecord">Create New</a>
 </p>
 <table class="table table-bordered table-striped">
     <thead class="thead-dark">
@@ -63,8 +63,8 @@
                     <span asp-for="@item.UserId">@item.UserId</span>
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="EditPatientHistoryRecord" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="ShowDetailsOfPatientHistory" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
