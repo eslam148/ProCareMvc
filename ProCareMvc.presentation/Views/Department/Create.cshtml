@@ -5,42 +5,33 @@
 }
 <br />
 <br />
-<br />
-<br />
-
 <div class="container mt-5">
-    <h1>Create Department</h1>
-    <hr />
+    <h1 class="text-center">Create Department</h1>
+    <hr class="mb-4" />
 
-    <div class="row">
-        <div class="col-md-6">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
             <form asp-action="Create">
-                <div asp-validation-summary="All" class="text-danger"></div>
+                <div asp-validation-summary="All" class="alert alert-danger"></div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
+                <div class="form-group mb-4">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter department name" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="ManagerId" class="control-label">Manager</label>
-                    <select asp-for="ManagerId" class="form-control">
+                <div class="form-group mb-4">
+                    <label asp-for="ManagerId" class="form-label">Manager</label>
+                    <select asp-for="ManagerId" class="form-select">
                         <option value="">-- Select Manager --</option>
-                      @*   @if (Model.Doctors != null)
-                        {
-                            foreach (var doctor in Model.Doctors)
-                            {
-                                <option value="@doctor.Id">@doctor.FirstName</option>
-                            }
-                        } *@
+                       
                     </select>
                     <span asp-validation-for="ManagerId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="HospitalId" class="control-label">Hospital</label>
-                    <select asp-for="HospitalId" class="form-control">
+                <div class="form-group mb-4">
+                    <label asp-for="HospitalId" class="form-label">Hospital</label>
+                    <select asp-for="HospitalId" class="form-select">
                         <option value="">-- Select Hospital --</option>
                         @if (Model.Hospitals != null)
                         {
@@ -53,9 +44,9 @@
                     <span asp-validation-for="HospitalId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Create</button>
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary px-5">Create</button>
+                    <a asp-action="Index" class="btn btn-secondary px-5">Back to List</a>
                 </div>
             </form>
         </div>
