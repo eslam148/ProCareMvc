@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProCareMvc.business;
 using ProCareMvc.business.InterfaceReposatory;
 using ProCareMvc.Database.Entity;
@@ -58,6 +59,25 @@ namespace ProCareMvc.presentation.Controllers
                 ViewBag.Message = "Email sent successfully!";
             
             return View(model);
+        }
+
+        public async Task<IActionResult> GetMyOrders()
+        {
+            var orders = await UnitOfWork.Order.GetAll().ToListAsync();
+          
+            return View(orders);
+        }
+
+        public async Task<IActionResult> GetMyOrdersById(Guid id)
+        {
+            var order = await UnitOfWork.Order.GetAll()
+                .Include(x => x.Patient)
+                .FirstOrDefaultAsync(x == x.Id== Guid.Parse("77777777-7777-7777-7777-777777777771"));
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
         }
     }
 }
