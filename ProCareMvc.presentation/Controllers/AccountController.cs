@@ -139,7 +139,42 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
 
         return BadRequest();
     }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+    {
 
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+
+        }
+
+
+        User user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            RedirectToAction("Index", "Home");
+        }
+
+
+        IdentityResult result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        if (result.Succeeded)
+        {
+
+            await _signInManager.RefreshSignInAsync(user);
+            return RedirectToAction("Index", "Home");
+        }
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+        return View(model);
+
+
+
+    }
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterVM userFromReq)
