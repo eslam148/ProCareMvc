@@ -18,6 +18,7 @@ namespace ProCareMvc.Database.Entity
         public Patient? Patients { get; set; }
         public Doctor? Doctor { get; set; }
         public string ImageProfileUrl { get; set; } = "doc-5.jpg";
+        public string Department { get; set; } = string.Empty;
 
         public ICollection<PatientHestory>? PatientHestories { get; set; } = new List<PatientHestory>();
     }

@@ -10,4 +10,6 @@ public class UserProfileViewModel
     public DateOnly BirthDate { get; set; }
     public Gender Gender { get; set; } 
     public string ImageProfileUrl { get; set; } = "doc-5.jpg";
+    public string Department { get; set; }
+
 }

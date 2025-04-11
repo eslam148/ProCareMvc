@@ -19,5 +19,6 @@ namespace ProCareMvc.Database.Entity
         public Guid HospitalId { get; set; }
         public Hospital Hospital { get; set; }
 
-     }
+        public ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
+    }
 }

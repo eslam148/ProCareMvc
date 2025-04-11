@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProCareMvc.business;
 using ProCareMvc.business.Interface;
 using ProCareMvc.Database.Entity;
@@ -35,6 +36,8 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
         
         return View();
     }
+
+
 
     [HttpPost]
     public async Task<IActionResult> Login(AdminLoginViewModel model)
@@ -87,11 +90,47 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
         return View(model);
     }
 
+    //[HttpGet]
+    //public async Task<IActionResult> UserProfile()
+    //{
+    //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    //    if (userId is null)
+    //        return RedirectToAction("Login");
+
+    //    var user = await _userManager.FindByIdAsync(userId);
+
+    //    if (user == null)
+    //        return RedirectToAction("Login");
+
+    //    var vm = new UserProfileViewModel
+    //    {
+    //        Id = user.Id,
+    //        UserName = user.UserName,
+    //        Email = user.Email,
+    //        ImageProfileUrl = user.ImageProfileUrl,
+    //        FirstName = user.FirstName,
+    //        LastName = user.LastName,
+    //        BirthDate = user.BirthDate,
+    //        Gender = user.Gender,
+    //        Department = user.Doctor?.Department?.Name ?? "N/A",
+    //    };
+
+    //    return View(vm);
+    //}
+
     [HttpGet]
     public async Task<IActionResult> UserProfile()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-          var user = await _userManager.FindByIdAsync(userId);
+
+        if (Guid.TryParse(userId, out Guid userGuid))
+        {
+            var user = await _userManager.Users
+                .Include(u => u.Doctor)
+                .ThenInclude(d => d.Department)
+                .FirstOrDefaultAsync(u => u.Id == userGuid);
+
             if (user != null)
             {
                 var vm = new UserProfileViewModel
@@ -103,42 +142,88 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     BirthDate = user.BirthDate,
-                    Gender = user.Gender
+                    Gender = user.Gender,
+                    Department = user.Doctor?.Department?.Name ?? "N/A"
                 };
+
                 return View(vm);
-       
+            }
         }
+
         return RedirectToAction("Login");
     }
+
+
+    //[HttpPost]
+    //public async Task<IActionResult> UploadProfileImage(IFormFile profileImage)
+    //{
+    //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    //    if (string.IsNullOrEmpty(userId) || profileImage == null)
+    //        return BadRequest();
+
+    //    var user = await _userManager.FindByIdAsync(userId);
+    //    if (user == null)
+    //        return NotFound();
+
+    //    var extension = Path.GetExtension(profileImage.FileName);
+    //    var fileName = $"{Guid.NewGuid()}{extension}";
+    //    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", fileName);
+
+    //    using (var stream = new FileStream(uploadPath, FileMode.Create))
+    //    {
+    //        await profileImage.CopyToAsync(stream);
+    //    }
+
+    //    // Optional: delete old file (if needed)
+
+    //    user.ImageProfileUrl = fileName;
+    //    await _userManager.UpdateAsync(user);
+
+    //    return Ok();
+    //}
 
     [HttpPost]
     public async Task<IActionResult> UploadProfileImage(IFormFile profileImage)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userId) || profileImage == null || profileImage.Length == 0)
+            return BadRequest("Invalid user or file");
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            return NotFound("User not found");
+
+       
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var extension = Path.GetExtension(profileImage.FileName).ToLower();
+
+        if (!allowedExtensions.Contains(extension))
+            return BadRequest("Unsupported file type");
 
       
-            var user = await _userManager.FindByIdAsync(userId);
+        if (!string.IsNullOrEmpty(user.ImageProfileUrl))
+        {
+            var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", user.ImageProfileUrl);
+            if (System.IO.File.Exists(oldPath))
+                System.IO.File.Delete(oldPath);
+        }
 
-            if (user != null)
-            {
-                var fileName = $"{Guid.NewGuid()}_{profileImage.FileName}";
-                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", fileName);
+       
+        var fileName = $"{Guid.NewGuid()}{extension}";
+        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", fileName);
 
-                using (var stream = new FileStream(uploadPath, FileMode.Create))
-                {
-                    await profileImage.CopyToAsync(stream);
-                }
+        using (var stream = new FileStream(uploadPath, FileMode.Create))
+        {
+            await profileImage.CopyToAsync(stream);
+        }
+   user.ImageProfileUrl = fileName;
+        await _userManager.UpdateAsync(user);
 
-
-                user.ImageProfileUrl = fileName;
-               await _userManager.UpdateAsync(user);
-
-            return Ok();
-            }
-        
-
-        return BadRequest();
+        return Ok();
     }
+
+
 
     [HttpPost]
     [ValidateAntiForgeryToken]
