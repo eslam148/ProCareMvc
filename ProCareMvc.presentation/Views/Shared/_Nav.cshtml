@@ -1,28 +1,136 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+﻿<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/59a9cf4a82.js" crossorigin="anonymous"></script>
+
+<!-- Styles -->
+<style>
+    .nav-link {
+        transition: all 0.2s ease-in-out;
+    }
+
+        .nav-link:hover {
+            color: #0d6efd;
+            transform: scale(1.05);
+        }
+
+    .profile-img {
+        width: 35px;
+        height: 35px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
+
+@{
+    
+    var profileImage = User.FindFirstValue("ProfileImage") ?? "doc-5.jpg";  
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top border-bottom">
     <div class="container">
-        <a class="navbar-brand text-primary fw-bold" href="/">ProCare</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Logo -->
+        <a class="navbar-brand text-primary fw-bold fs-4" href="/">
+            <i class="fa-solid fa-heart-pulse me-2"></i>ProCare
+        </a>
+
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <!-- Navbar items -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-               <li class="nav-item"><a asp-controller="Home" asp-action="Index" class="nav-link"><span>Home</span></a></li>
-				<li class="nav-item"><a href="#about-section" class="nav-link"><span>About</span></a></li>
-				<li class="nav-item"><a asp-controller="Department" asp-action="Index" class="nav-link"><span>Department</span></a></li>
-				<li class="nav-item"><a asp-controller="Doctor" asp-action="Index" class="nav-link"><span>Doctors</span></a></li>
-				<li class="nav-item"><a href="#blog-section" class="nav-link"><span>Blog</span></a></li>
-				<li class="nav-item"><a href="#contact-section" class="nav-link"><span>Contact</span></a></li>
-				@* <li class="nav-item cta mr-md-2"><a href="appointment.html" class="nav-link">Appointment</a></li> *@
-				@if (User.Identity.IsAuthenticated)
-				{
-					<li class="nav-item"><a asp-controller="Account" asp-action="LogOut" class="nav-link"><span>Logout</span></a></li>
-				}
-				else
-				{
-					<li class="nav-item"><a asp-controller="Account" asp-action="Login" class="nav-link"><span>Login</span></a></li>
-					<li class="nav-item"><a asp-controller="Account" asp-action="PatientRegister" class="nav-link"><span>Register</span></a></li>
-				}
+            <ul class="navbar-nav ms-auto align-items-center gap-2">
+                <li class="nav-item"><a asp-controller="Home" asp-action="Index" class="nav-link text-dark">Home</a></li>
+                <li class="nav-item"><a href="#about-section" class="nav-link text-dark">About</a></li>
+                <li class="nav-item"><a asp-controller="Department" asp-action="Index" class="nav-link text-dark">Department</a></li>
+                <li class="nav-item"><a asp-controller="Doctor" asp-action="Index" class="nav-link text-dark">Doctors</a></li>
+                <li class="nav-item"><a href="#blog-section" class="nav-link text-dark">Blog</a></li>
+                <li class="nav-item"><a href="#contact-section" class="nav-link text-dark">Contact</a></li>
+                <li class="nav-item"><a asp-controller="Home" asp-action="GetMyOrders" class="nav-link text-dark">My Orders</a></li>
+
+                <!-- Notification -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link position-relative" href="#" id="notificationToggle" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-regular fa-bell fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
+                              id="notificationDot" style="display: none; width: 10px; height: 10px;"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end p-2 shadow" aria-labelledby="notificationToggle"
+                        id="notificationList" style="min-width: 250px; max-height: 300px; overflow-y: auto;">
+                        <li><span class="dropdown-item text-muted">No new notifications</span></li>
+                    </ul>
+                </li>
+
+                <!-- Profile -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown"
+                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="~/images/@profileImage" alt="Profile" class="profile-img">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="UserProfile">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="LogOut">Logout</a></li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item"><a asp-controller="Account" asp-action="Login" class="nav-link text-dark">Login</a></li>
+                    <li class="nav-item"><a asp-controller="Account" asp-action="PatientRegister" class="nav-link text-dark">Register</a></li>
+                }
             </ul>
         </div>
     </div>
 </nav>
+
+
+<!-- SignalR -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notifyhub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+    connection.on("ReceiveNotify", function (message) {
+        addNotification(message);
+    });
+
+    connection.start().then(() => {
+        console.log("Connected to SignalR.");
+    }).catch(err => {
+        console.error(err.toString());
+    });
+
+    let notificationCount = 0;
+
+    function addNotification(message) {
+        const list = document.getElementById("notificationList");
+
+        if (notificationCount === 0) {
+            list.innerHTML = '';
+        }
+
+        if (Array.isArray(message)) {
+            message.forEach(m => appendNotificationItem(m.status));
+            notificationCount += message.length;
+        } else {
+            appendNotificationItem(message.status || message);
+            notificationCount++;
+        }
+
+        document.getElementById("notificationDot").style.display = "inline-block";
+    }
+
+    function appendNotificationItem(text) {
+        const item = document.createElement("li");
+        item.innerHTML = `<a href="#" class="dropdown-item small">${text}</a>`;
+        document.getElementById("notificationList").prepend(item);
+    }
+</script>

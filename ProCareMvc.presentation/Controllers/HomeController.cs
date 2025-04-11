@@ -68,11 +68,13 @@ namespace ProCareMvc.presentation.Controllers
             return View(orders);
         }
 
-        public async Task<IActionResult> GetMyOrdersById(Guid id)
+        public async Task<IActionResult> GetMyOrdersById(Guid Id)
         {
             var order = await UnitOfWork.Order.GetAll()
                 .Include(x => x.Patient)
-                .FirstOrDefaultAsync(x == x.Id== Guid.Parse("77777777-7777-7777-7777-777777777771"));
+                .ThenInclude(x=> x.User)
+                .ThenInclude(x => x.PatientHestories)
+                .FirstOrDefaultAsync(x => x.Id == Id);
             if (order == null)
             {
                 return NotFound();

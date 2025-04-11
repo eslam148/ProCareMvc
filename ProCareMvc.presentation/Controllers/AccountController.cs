@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProCareMvc.business;
 using ProCareMvc.business.Interface;
@@ -44,7 +45,8 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
               var user = await _userManager.FindByNameAsync(model.UserName);
             if (user != null)
             {
-                
+                var token =   await  _userManager.GeneratePasswordResetTokenAsync(user);
+                var result1 = await _userManager.ResetPasswordAsync(user, token, model.Password);
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
                 if (result.Succeeded)
                 {
@@ -207,7 +209,7 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
         return View("Register", PatientFromReq);
     }
 
-
+    
     
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -218,10 +220,16 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
             User? userFromDb = await userManager.FindByEmailAsync(userFromReq.Email);
             if (userFromDb != null)
             {
+                //var token = await _userManager.GeneratePasswordResetTokenAsync(userFromDb);
+                //var result1 = await _userManager.ResetPasswordAsync(userFromDb, token, userFromReq.Password);
                 bool found = await userManager.CheckPasswordAsync(userFromDb, userFromReq.Password);
                 if (found)
                 {
+                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                    identity.AddClaim(new Claim("ProfileImage", userFromDb.ImageProfileUrl ?? "doc-5.jpg"));
+                    var principal = new ClaimsPrincipal(identity);
                     await _signInManager.SignInAsync(userFromDb, userFromReq.RememberMe);
+                    HttpContext.User = principal;
                     return RedirectToAction("Index", "Home");
                 }
             }
