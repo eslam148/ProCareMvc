@@ -2,39 +2,116 @@
 
 @{
     ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Register</h1>
+<style>
+    body {
+        background-color: #f7f9fc;
+    }
 
-<h4>RegisterVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    .register-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .register-card {
+        display: flex;
+        max-width: 900px;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 16px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .register-img {
+        flex: 1;
+        background: url('https://images.pexels.com/photos/5234501/pexels-photo-5234501.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat center center;
+        background-size: cover;
+    }
+
+    .register-form {
+        flex: 1;
+        padding: 50px 40px;
+    }
+
+        .register-form h3 {
+            color: #2962ff;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+    .form-control {
+        height: 45px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+
+    .btn-primary {
+        height: 45px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        border-radius: 8px;
+        background: linear-gradient(to right, #2962ff, #448aff);
+        border: none;
+    }
+
+    .register-links a {
+        font-size: 14px;
+    }
+</style>
+
+<div class="register-container">
+    <div class="register-card">
+        <!-- Left Side - Image -->
+        <div class="register-img d-none d-md-block"></div>
+
+        <!-- Right Side - Form -->
+        <div class="register-form">
+            <h3>Create Your Account</h3>
+
+            <form asp-action="Register" asp-controller="Account" method="post">
+                @* <div asp-validation-summary="All" class="alert alert-danger"></div> *@
+
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="you@example.com" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="********" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="********" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+
+                @* <div class="register-links mt-3 text-center"> *@
+                @*     <a asp-action="Login" asp-controller="Account" class="text-primary text-decoration-none">Already have an account? Login</a> *@
+                @* </div> *@
+
+                <div class="register-links mt-3 text-center">
+                    <a asp-action="Login" asp-controller="Account" class="text-dark text-decoration-none">
+                        Already have an account? Login
+                    </a>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Login">Lodin</a>
-</div>
-<partial Name="_ValidationScriptsPartial" />
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

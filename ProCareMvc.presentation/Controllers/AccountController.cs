@@ -90,6 +90,13 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
         return View(model);
     }
 
+    [HttpGet]
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+
     //[HttpGet]
     //public async Task<IActionResult> UserProfile()
     //{
@@ -126,10 +133,10 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
 
         if (Guid.TryParse(userId, out Guid userGuid))
         {
-            var user = await _userManager.Users
-                .Include(u => u.Doctor)
-                .ThenInclude(d => d.Department)
-                .FirstOrDefaultAsync(u => u.Id == userGuid);
+            var user = await _userManager.FindByIdAsync(userId);
+            //.Include(u => u.Doctor)
+            //.ThenInclude(d => d.Department)
+            //.FirstOrDefaultAsync(u => u.Id == userGuid);
 
             if (user != null)
             {
@@ -226,22 +233,7 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
 
 
 
-        IdentityResult result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-        if (result.Succeeded)
-        {
-
-            await _signInManager.RefreshSignInAsync(user);
-            return RedirectToAction("Index", "Home");
-        }
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError(string.Empty, error.Description);
-        }
-        return View(model);
-
-
-
-    }
+       
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterVM userFromReq)
@@ -339,10 +331,97 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
         }
         return View("Login", userFromReq);
     }
-    public IActionResult ForgetPassword()
+
+   
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+    {
+
+
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+
+        }
+
+
+        User user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            RedirectToAction("Index", "Home");
+        }
+
+
+        IdentityResult result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        if (result.Succeeded)
+        {
+
+            await _signInManager.RefreshSignInAsync(user);
+            return RedirectToAction("Index", "Home");
+        }
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+        return View(model);
+
+
+
+    }
+
+    public  IActionResult ChangePassword()
     {
         return View();
     }
+
+
+    //[HttpPost]
+    //public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel model)
+    //{
+    //    if (!ModelState.IsValid)
+    //        return View(model);
+
+    //    var user = await _userManager.FindByEmailAsync(model.Email);
+
+    //    if (user == null)
+    //    {
+    //        ModelState.AddModelError(string.Empty, "No user found with this email.");
+    //        return View(model);
+    //    }
+
+    //    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+    //    var resetPasswordLink = Url.Action("ResetPassword", "Account", new { token, email = model.Email }, Request.Scheme);
+
+    //    //  await _emailService.SendEmailAsync(model.Email, "Reset your password", $"Click here to reset: {resetPasswordLink}");
+
+    //    ViewBag.Message = "If the email exists, a reset link has been sent.";
+    //    return View(model);
+    //}
+
+    //[HttpPost]
+    //public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel model)
+    //{
+    //    if (!ModelState.IsValid)
+    //        return View(model);
+
+    //    var user = await _userManager.FindByEmailAsync(model.Email);
+
+    //    if (user != null)
+    //    {
+    //        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+    //        var resetPasswordLink = Url.Action("ResetPassword", "Account", new { token, email = model.Email }, Request.Scheme);
+
+    //        // هنا تقدر تبعت الإيميل
+    //        // await _emailService.SendEmailAsync(model.Email, "Reset your password", $"Click here to reset your password: <a href='{resetPasswordLink}'>Reset Password</a>");
+    //    }
+
+    //    // Regardless of whether the user exists or not, show confirmation
+    //    return RedirectToAction("ForgetPasswordConfirmation");
+    //}
+
 
     [HttpPost]
     public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel model)
@@ -351,25 +430,99 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
             return View(model);
 
         var user = await _userManager.FindByEmailAsync(model.Email);
-
         if (user == null)
         {
-            ModelState.AddModelError(string.Empty, "No user found with this email.");
-            return View(model);
+            ViewBag.Message = "If the email exists, a reset link has been sent.";
+            return View(); 
         }
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        var resetPasswordLink = Url.Action("ResetPassword", "Account", new { token, email = model.Email }, Request.Scheme);
+        var resetLink = Url.Action("ResetPassword", "Account", new { token, email = model.Email }, Request.Scheme);
 
-        //  await _emailService.SendEmailAsync(model.Email, "Reset your password", $"Click here to reset: {resetPasswordLink}");
+        // Send email here
+       // await _emailService.SendEmailAsync(model.Email, "Reset Password", $"Click here to reset: {resetLink}");
 
         ViewBag.Message = "If the email exists, a reset link has been sent.";
-        return View(model);
+        return View();
     }
+
+
+    public IActionResult ForgetPassword()
+    {
+        return View();
+    }
+
+
     public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Login");
+    }
+
+    [HttpGet]
+    public IActionResult ResetPassword(string token="asdasd", string email="asdad")
+    {
+        if (token == null || email == null)
+            return RedirectToAction("Login");
+
+        return View(new ResetPasswordViewModel { Token = token, Email = email });
+    }
+
+
+    //[HttpPost]
+    //public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+    //{
+    //    if (!ModelState.IsValid)
+    //        return View(model);
+
+    //    var user = await _userManager.FindByEmailAsync(model.Email);
+    //    if (user == null)
+    //        return RedirectToAction("ResetPasswordConfirmation");
+
+    //    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+    //    if (result.Succeeded)
+    //        return RedirectToAction("ResetPasswordConfirmation");
+
+    //    foreach (var error in result.Errors)
+    //        ModelState.AddModelError(string.Empty, error.Description);
+
+    //    return View(model);
+    //}
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        if (user == null)
+        {
+          
+            TempData["ResetSuccess"] = true;
+            return RedirectToAction("ResetPassword");
+        }
+
+        var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+        if (result.Succeeded)
+        {
+            TempData["ResetSuccess"] = true;
+            return RedirectToAction("ResetPassword");
+        }
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+
+        return View(model);
+    }
+
+
+    public IActionResult ResetPasswordConfirmation()
+    {
+        return View();
     }
 
 

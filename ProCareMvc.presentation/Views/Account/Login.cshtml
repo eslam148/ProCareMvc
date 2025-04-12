@@ -4,43 +4,98 @@
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<section class="hero-wrap js-fullheight" style="background-image: url('/images/bg_3.jpg');" data-section="home" data-stellar-background-ratio="0.5">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h4>Login</h4>
-                    </div>
-                    <div class="card-body">
-                        <form asp-action="PatientLogin">
-                            <div asp-validation-summary="All" class="alert alert-danger"></div>
-                            <div class="form-group mb-3">
-                                <label asp-for="Email" class="form-label"></label>
-                                <input asp-for="Email" class="form-control" placeholder="Enter your email" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label asp-for="Password" class="form-label"></label>
-                                <input asp-for="Password" class="form-control" type="password" placeholder="Enter your password" />
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-check mb-3">
-                                <input class="form-check-input" asp-for="RememberMe" />
-                                <label class="form-check-label" asp-for="RememberMe">Remember Me</label>
-                            </div>
-                            <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary w-100">Login</button>
-                            </div>
-                        </form>
-                    </div>
+
+<style>
+    body {
+        background: #f7f9fc;
+    }
+
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-card {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        max-width: 800px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .login-img {
+        width: 50%;
+        background: url('https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1 no-repeat center');
+        background-size: cover;
+    }
+    .login-form {
+        width: 50%;
+        padding: 40px;
+    }
+
+    .form-control {
+        height: 45px;
+        font-size: 15px;
+    }
+
+    .btn-primary {
+        height: 45px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .login-links a {
+        font-size: 14px;
+    }
+
+   
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <!-- Image Section -->
+        <div class="login-img"></div>
+
+        <!-- Form Section -->
+        <div class="login-form">
+            <h3 class="text-center mb-4 text-primary fw-bold">Welcome Back</h3>
+
+            <form asp-action="PatientLogin" asp-controller="Account" method="post">
+                @* <div asp-validation-summary="All" class="alert alert-danger"></div> *@
+
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="you@example.com" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
                 </div>
-                <div class="text-center mt-3">
-                    <a asp-action="Register" class="text-primary">Don't have an account? Register here</a>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="********" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
                 </div>
-            </div>
+
+                <div class="form-check mb-3">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label">Remember Me</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+
+                <div class="login-links mt-3 d-flex justify-content-between">
+                    <a asp-action="ForgetPassword" asp-controller="Account" class="text-danger text-decoration-none">Forgot password?</a>
+                    <a asp-action="Register" asp-controller="Account" class="text-primary text-decoration-none">Register</a>
+                </div>
+            </form>
         </div>
     </div>
-</section>
+</div>
 
-<partial name="_ValidationScriptsPartial" />
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

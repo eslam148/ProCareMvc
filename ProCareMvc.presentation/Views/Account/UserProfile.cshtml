@@ -8,19 +8,8 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow p-4">
-                @* <div class="text-center"> *@
-                @*     <img src="~/Images/@Model.ImageProfileUrl" *@
-                @*          class="rounded-circle mb-3 shadow" *@
-                @*          width="150" height="150" *@
-                @*          alt="Profile Picture" *@
-                @*          id="profileImage" *@
-                @*          style="cursor:pointer;" /> *@
 
-                @*     <h4>@Model.FirstName @Model.LastName</h4> *@
-                @*     <p>@Model.Email</p> *@
-                @* </div> *@
-
-                <!-- صورة البروفايل -->
+             
                 <div class="text-center">
                     <img src="~/Images/@Model.ImageProfileUrl"
                          id="profileImage"
@@ -35,7 +24,6 @@
                     <h4>@Model.FirstName @Model.LastName</h4>
                     <p>@Model.Email</p>
                 </div>
-
 
                 <hr />
 
@@ -52,6 +40,7 @@
                     <dt class="col-sm-4">Department</dt>
                     <dd class="col-sm-8">@Model.Department</dd>
                 </dl>
+
                 <div class="text-center mt-4">
                     <a href="@Url.Action("ChangePassword", "Account")" class="btn btn-warning">
                         Change Password
@@ -63,83 +52,36 @@
     </div>
 </div>
 
-@* <!-- Modal for uploading new profile image --> *@
-@* <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true"> *@
-@*     <div class="modal-dialog"> *@
-@*         <form id="uploadForm" enctype="multipart/form-data"> *@
-@*             <div class="modal-content"> *@
-@*                 <div class="modal-header"> *@
-@*                     <h5 class="modal-title">Upload New Profile Picture</h5> *@
-@*                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
-@*                 </div> *@
-@*                 <div class="modal-body"> *@
-@*                     <input type="file" name="profileImage" class="form-control mb-2" required /> *@
-@*                 </div> *@
-@*                 <div class="modal-footer"> *@
-@*                     <button type="submit" class="btn btn-primary">Upload</button> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </form> *@
-@*     </div> *@
-@* </div> *@
-
-<!-- Modal -->
+<!-- Modal لرفع صورة جديدة -->
 <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content p-3">
-            <div class="modal-header">
-                <h5 class="modal-title" id="uploadModalLabel">Upload New Profile Picture</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload New Profile Picture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" name="profileImage" class="form-control mb-2" required />
+                    <div id="uploadStatus" class="text-center mt-2"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
             </div>
-
-            <div class="modal-body">
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <input type="file" name="profileImage" class="form-control mb-3" required />
-                    <button type="submit" class="btn btn-primary w-100">Upload</button>
-                </form>
-                <div id="uploadStatus" class="mt-2 text-success text-center"></div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
-
-
-@* @section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Open modal on image click
-            $('#profileImage').click(function () {
-                $('#uploadModal').modal('show');
-            });
-
-            // Upload image via AJAX
-            $('#uploadForm').submit(function (e) {
-                e.preventDefault();
-
-                var formData = new FormData(this);
-
-                $.ajax({
-                    url: '@Url.Action("UploadProfileImage", "Account")',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function () {
-                        $('#uploadModal').modal('hide');
-                        location.reload();
-                    },
-                    error: function () {
-                        alert("Error while uploading.");
-                    }
-                });
-            });
-        });
-    </script>
-} *@
 
 @section Scripts {
     <script>
         $(document).ready(function () {
+            
+            $('#profileImage').click(function () {
+                $('#uploadModal').modal('show');
+            });
+
+          
             $('#uploadForm').submit(function (e) {
                 e.preventDefault();
 
@@ -151,13 +93,11 @@
                     data: formData,
                     contentType: false,
                     processData: false,
-                    success: function () {
-                        $('#uploadStatus').text("Uploaded successfully!");
+                    success: function (response) {
+                        $('#uploadModal').modal('hide');
 
-                        setTimeout(function () {
-                            $('#uploadModal').modal('hide');
-                            location.reload();
-                        }, 1000);
+                       
+                        $('#profileImage').attr('src', '~/Images/' + response.newImageUrl + '?' + new Date().getTime());
                     },
                     error: function () {
                         $('#uploadStatus').text("Error while uploading.").addClass("text-danger");
@@ -167,4 +107,3 @@
         });
     </script>
 }
-
