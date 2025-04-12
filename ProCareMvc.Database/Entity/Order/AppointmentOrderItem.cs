@@ -12,5 +12,6 @@ namespace ProCareMvc.Database.Entity
         [ForeignKey(nameof(Appointment))]
         public Guid AppointmetnId { get; set; }
         public Appointment Appointment { get; set; }
+
     }
 }

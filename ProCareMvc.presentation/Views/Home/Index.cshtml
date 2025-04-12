@@ -1,39 +1,242 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@* @{ *@
+@*     ViewData["Title"] = "Home Page"; *@
+@* } *@
+@* <section class="hero-wrap js-fullheight" style="background-image: url('images/bg_3.jpg');" data-section="home" data-stellar-background-ratio="0.5"> *@
+@*     <div class="overlay"></div> *@
+@*     <div class="container"> *@
+@*         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true"> *@
+@*             <div class="col-md-6 pt-5 ftco-animate"> *@
+@*                 <div class="mt-5"> *@
+@*                     <span class="subheading">Welcome to Mediplus</span> *@
+@*                     <h1 class="mb-4">We are here <br>for your Care</h1> *@
+@*                     <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove.</p> *@
+@*                     <p><a href="#" class="btn btn-primary py-3 px-4">Make an appointment</a></p> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </section> *@
+@* <section class="ftco-counter img ftco-section ftco-no-pt ftco-no-pb" id="about-section"> *@
+@*     <div class="container"> *@
+@*         <div class="row d-flex"> *@
+@*             <div class="col-md-6 col-lg-5 d-flex"> *@
+@*                 <div class="img d-flex align-self-stretch align-items-center" style="background-image:url(../../images/about.jpg);"> *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="col-md-6 col-lg-7 pl-lg-5 py-md-5"> *@
+@*                 <div class="py-md-5"> *@
+@*                     <div class="row justify-content-start pb-3"> *@
+@*                         <div class="col-md-12 heading-section ftco-animate p-4 p-lg-5"> *@
+@*                             <h2 class="mb-4">We Are <span>Mediplus</span> A Medical Clinic</h2> *@
+@*                             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p> *@
+@*                             <p><a href="#" class="btn btn-primary py-3 px-4">Make an appointment</a> <a href="#" class="btn btn-secondary py-3 px-4">Contact us</a></p> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </section> *@
+
+
+
+
+
+
+
+@* @model List<ProCareMvc.presentation.Models.ShowDoctorInHomePageVM> *@
+
+@* @{ *@
+@*     ViewData["Title"] = "Our Doctors"; *@
+@* } *@
+
+@* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> *@
+
+@* <div class="container my-5"> *@
+@*     <h1 class="text-center mb-5 fw-bold text-primary">Our Doctors</h1> *@
+@*     @if (Model == null || !Model.Any()) *@
+@*     { *@
+@*         <p class="text-center text-muted">No doctors available at the moment.</p> *@
+@*     } *@
+@*     else *@
+@*     { *@
+@*         <div class="row g-4"> *@
+@*             @foreach (var doctor in Model) *@
+@*             { *@
+@*                 <div class="col-md-4 col-sm-6"> *@
+@*                     <div class="card h-100 shadow-sm border-0"> *@
+@*                         <img src="/images/@doctor.ImageUrl" class="card-img-top img-fluid rounded-circle mx-auto d-block mt-3" alt="@doctor.FullName" style="width: 150px; height: 150px; object-fit: cover;" /> *@
+@*                         <div class="card-body text-center"> *@
+@*                             <h5 class="card-title fw-semibold text-dark">@doctor.FullName</h5> *@
+@*                             <p class="card-text text-muted mb-2">@doctor.DepartmentName</p> *@
+@*                             <p class="card-text"><strong>Experience:</strong> @doctor.YearsOfExperience Years</p> *@
+@*                             <p class="card-text"><strong>Contact:</strong> @doctor.PhoneNumber</p> *@
+@*                         </div> *@
+@*                         <div class="card-footer bg-transparent border-0"> *@
+@*                             <a asp-action="Details" asp-controller="Home" asp-route-id="@doctor.Id" class="btn btn-outline-primary btn-sm">View Profile</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             } *@
+@*         </div> *@
+@*     } *@
+@* </div> *@
+
+@* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script> *@
+
+
+
+
+@model List<ProCareMvc.presentation.Models.ShowDoctorInHomePageVM>
+
+@{
+    ViewData["Title"] = "Our Doctors";
 }
-<section class="hero-wrap js-fullheight" style="background-image: url('images/bg_3.jpg');" data-section="home" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-            <div class="col-md-6 pt-5 ftco-animate">
-                <div class="mt-5">
-                    <span class="subheading">Welcome to Mediplus</span>
-                    <h1 class="mb-4">We are here <br>for your Care</h1>
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove.</p>
-                    <p><a href="#" class="btn btn-primary py-3 px-4">Make an appointment</a></p>
-                </div>
-            </div>
-        </div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<style>
+    .doctor-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        opacity: 0;
+        background: #fff;
+        border-radius: 15px;
+        padding: 1rem;
+    }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+        }
+
+    .doctor-img {
+        border: 3px solid #e9ecef;
+        transition: border-color 0.2s ease;
+    }
+
+    .doctor-card:hover .doctor-img {
+        border-color: #007bff;
+    }
+
+    .fade-in {
+        opacity: 1;
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    .card-title {
+        font-family: 'Arial', sans-serif;
+        color: #2c3e50;
+    }
+
+    .card-text {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .btn-outline-primary {
+        border-radius: 20px;
+        padding: 0.3rem 1rem;
+    }
+
+    .search-bar {
+        max-width: 500px;
+        margin: 0 auto 2rem auto;
+    }
+
+        .search-bar input {
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="container my-5">
+    <h1 class="text-center mb-4 fw-bold" style="color: #2c3e50;">Our Doctors</h1>
+    <div class="search-bar">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by name or department..." />
     </div>
-</section>
-<section class="ftco-counter img ftco-section ftco-no-pt ftco-no-pb" id="about-section">
-    <div class="container">
-        <div class="row d-flex">
-            <div class="col-md-6 col-lg-5 d-flex">
-                <div class="img d-flex align-self-stretch align-items-center" style="background-image:url(../../images/about.jpg);">
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-7 pl-lg-5 py-md-5">
-                <div class="py-md-5">
-                    <div class="row justify-content-start pb-3">
-                        <div class="col-md-12 heading-section ftco-animate p-4 p-lg-5">
-                            <h2 class="mb-4">We Are <span>Mediplus</span> A Medical Clinic</h2>
-                            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                            <p><a href="#" class="btn btn-primary py-3 px-4">Make an appointment</a> <a href="#" class="btn btn-secondary py-3 px-4">Contact us</a></p>
+    @if (Model == null || !Model.Any())
+    {
+        <p class="text-center text-muted">No doctors available at the moment.</p>
+    }
+    else
+    {
+        <div class="row g-4" id="doctor-list">
+            @foreach (var doctor in Model)
+            {
+                <div class="col-md-4 col-sm-6 doctor-item" data-name="@doctor.FullName.ToLower()" data-department="@doctor.DepartmentName.ToLower()">
+                    <div class="doctor-card card h-100 border-0 shadow-sm">
+                        <img src="/images/@doctor.ImageUrl" class="doctor-img img-fluid rounded-circle mx-auto d-block mt-3" alt="@doctor.FullName" style="width: 110px; height: 110px; object-fit: cover;" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">@doctor.FullName</h5>
+                            <p class="card-text">@doctor.DepartmentName</p>
+                            <p class="card-text"><small>@doctor.YearsOfExperience Years</small></p>
+                            <p class="card-text"><small>Contact: @doctor.PhoneNumber</small></p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 pb-3">
+                            <a asp-action="Details" asp-controller="Home" asp-route-id="@doctor.Id" class="btn btn-outline-primary btn-sm view-profile">View Profile</a>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
-    </div>
-</section>
+    }
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Fade-In Animation
+        const cards = document.querySelectorAll(".doctor-card");
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add("fade-in");
+            }, index * 150);
+        });
+
+        // View Profile Button Effect
+        const buttons = document.querySelectorAll(".view-profile");
+        buttons.forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                this.style.transition = "background-color 0.2s ease, color 0.2s ease";
+                this.classList.add("btn-primary");
+                this.classList.remove("btn-outline-primary");
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 150);
+            });
+        });
+
+        // Search Functionality
+        const searchInput = document.getElementById("searchInput");
+        const doctorItems = document.querySelectorAll(".doctor-item");
+
+        searchInput.addEventListener("input", function () {
+            const searchTerm = this.value.toLowerCase();
+
+            doctorItems.forEach(item => {
+                const name = item.getAttribute("data-name");
+                const department = item.getAttribute("data-department");
+
+                if (name.includes(searchTerm) || department.includes(searchTerm)) {
+                    item.style.display = "block";
+                    item.querySelector(".doctor-card").classList.add("fade-in");
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        });
+    });
+</script>

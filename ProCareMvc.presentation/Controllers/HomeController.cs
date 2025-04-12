@@ -6,6 +6,9 @@ using ProCareMvc.business.InterfaceReposatory;
 using ProCareMvc.Database.Entity;
 using ProCareMvc.presentation.Models;
 using ProCareMvc.presentation.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace ProCareMvc.presentation.Controllers
 {
@@ -17,7 +20,7 @@ namespace ProCareMvc.presentation.Controllers
         public IUnitOfWork UnitOfWork { get; }
         public IMapper Mapper { get; }
 
-        public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork,IMapper mapper, EmailServices emailServices)
+        public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork,IMapper mapper, EmailServices emailServices )
         {
             _logger = logger;
 
@@ -26,12 +29,121 @@ namespace ProCareMvc.presentation.Controllers
             Mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(DepartmentVM vm)
+        //[Authorize]
+        public async Task<IActionResult> Index()
         {
+            var doctors = await UnitOfWork.Doctor.GetAll()
+                .AsNoTracking()
+                .Include(d => d.User)
+                .Include(d => d.Department)
+                .Where(d => !d.IsDeleted)
+                .Select(d => new ShowDoctorInHomePageVM
+                {
+                    Id = d.Id,
+                    FullName =  $"{d.User.FirstName} {d.User.LastName}",
+                    DepartmentName =  d.Department.Name ,
+                    YearsOfExperience = d.YearsOfExperience,
+                    PhoneNumber =d.User.PhoneNumber ,
+                    IsDeleted = d.IsDeleted,
+                    ImageUrl = d.User.ImageProfileUrl 
+                })
+                .ToListAsync();
 
-            Department d = Mapper.Map<Department>(vm);
-           await  UnitOfWork.Department.InsertAsync(d);
-            return View();
+            return View(doctors);
+        }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var doctorEntity = await UnitOfWork.Doctor.GetByIdAsync(id);
+
+            if (doctorEntity == null || doctorEntity.IsDeleted)
+            {
+                return NotFound("Doctor is not Avalible now");
+            }
+
+            var doctorWithDetails = await UnitOfWork.Doctor.GetAll()
+                .AsNoTracking()
+                .Include(d => d.User)
+                .Include(d => d.Department)
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (doctorWithDetails == null)
+            {
+                return NotFound();
+            }
+
+            ////////////////////
+            ///// ????? ????? ????? ????????
+            int startHour = 9;
+            int endHour = 15;
+            TimeSpan slotDuration = TimeSpan.FromMinutes(30);
+            int daysAhead = 3;
+            DateTime now = DateTime.Today;
+
+            //////////////
+            ///// ????? ?? ??????? ???????
+
+            List<DateTime> allPossibleSlots = new List<DateTime>();
+
+            for (int day =0 ; day < daysAhead ; day++)
+            {
+
+               DateTime currentDay = now.AddDays(day);
+
+                for (var time = currentDay.AddHours(startHour); time < currentDay.AddHours(endHour); time = time.Add(slotDuration))
+
+                {
+                    allPossibleSlots.Add(time);
+                }
+            }
+
+
+
+
+
+
+
+
+
+            // ??? ???????? ????????
+
+         List<AppointmentVM>  bookedAppointments = await UnitOfWork.Appointment
+                .GetAll()
+               .AsNoTracking()
+                .Where(a => a.DoctorId == id && a.StartTime >= now && a.StartTime < now.AddDays(daysAhead) && !a.IsDeleted)
+                .Select(a => new AppointmentVM { StartTime = a.StartTime, EndTime = a.EndTime })
+                .ToListAsync();
+
+            // ???? ???????? ???????
+
+            List<AppointmentVM> availableAppointments = allPossibleSlots
+                .Where(slot => !bookedAppointments.Any(booked => slot >= booked.StartTime && slot < booked.EndTime))
+                .Select(slot => new AppointmentVM
+                {
+                    StartTime =slot,
+                    EndTime= slot.Add(slotDuration),
+                    Name = "Available",
+                    PatientId = Guid.Empty
+
+                })
+                .ToList();
+
+
+
+
+            var doctor = new ShowDoctorInHomePageVM
+            {
+                Id = doctorWithDetails.Id,
+                FullName = $"{doctorWithDetails.User.FirstName} {doctorWithDetails.User.LastName}",
+                DepartmentName =doctorWithDetails.Department.Name ,
+                YearsOfExperience = doctorWithDetails.YearsOfExperience,
+                PhoneNumber = doctorWithDetails.User.PhoneNumber,
+                IsDeleted = doctorWithDetails.IsDeleted,
+                ImageUrl = doctorWithDetails.User.ImageProfileUrl ,
+                AvailableAppointments = availableAppointments
+            };
+
+            return View(doctor);
         }
 
         public IActionResult Privacy()

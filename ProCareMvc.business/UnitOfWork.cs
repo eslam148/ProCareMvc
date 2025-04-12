@@ -1,55 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ProCareMvc.business.Interface;
+﻿using ProCareMvc.business.Interface;
 using ProCareMvc.business.InterfaceReposatory;
 using ProCareMvc.business.Repository;
+using ProCareMvc.business;
 using ProCareMvc.Database;
 
-namespace ProCareMvc.business
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork(AppDbContext appContext) : IUnitOfWork
+    private readonly AppDbContext _context;
+
+    public IOrderRepository Order { get; }
+    public IOrderItemRepository OrderItem { get; }
+    public IDrugRepository Drug { get; }
+    public IHospitalRepository Hospital { get; }
+    public ITakeDrugRepository TakeDrug { get; }
+    public IAppointmentRepository Appointment { get; }
+    public IDepartmentRepository Department { get; }
+    public IDoctorRepository Doctor { get; }
+    public IPatientRepository Patient { get; }
+    public ILabRepository Lab { get; }
+    public ITestLabRepository TestLab { get; }
+    public IUserRepository User { get; }
+
+    public UnitOfWork(AppDbContext appContext)
     {
-       
-        private AppDbContext context = appContext;
-        
+        _context = appContext;
 
-        public IOrderRepository Order { get; } = new OrderRepository(appContext);
+        Order = new OrderRepository(appContext);
+        OrderItem = new OrderItemRepository(appContext);
+        Drug = new DrugRepository(appContext);
+        Hospital = new HospitalRepository(appContext);
+        TakeDrug = new TakeDrugRepository(appContext);
+        Appointment = new AppointmentRepository(appContext);
+        Department = new DepartmentRepository(appContext);
+        Doctor = new DoctorRepository(appContext);
+        Patient = new PatientRepository(appContext);
+        Lab = new LabRepository(appContext);
+        TestLab = new TestLabRepository(appContext);
+        User = new UserRepository(appContext);
+    }
 
-        public IOrderItemRepository OrderItem { get; } = new OrderItemRepository(appContext);
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
-        public IDrugRepository Drug { get; } = new DrugRepository(appContext);
-
-        public IHospitalRepository Hospital { get; } = new HospitalRepository(appContext);
-
-        public ITakeDrugRepository TakeDrug { get; } = new TakeDrugRepository(appContext);
-
- 
-        public IAppointmentRepository Appointment { get; } = new AppointmentRepository(appContext);
-
-        public IDepartmentRepository Department { get; } = new DepartmentRepository(appContext);
-
-        public IDoctorRepository Doctor { get; } = new DoctorRepository(appContext);
-
-        public IPatientRepository Patient { get; } = new PatientRepository(appContext);
-
-        public ILabRepository Lab { get; } = new LabRepository(appContext);
-
-        public ITestLabRepository TestLab { get; } = new TestLabRepository(appContext);
-
-        public IUserRepository User { get; } = new UserRepository(appContext);
-
-         
-
-        public void Dispose()
-        {
-            context.Dispose();
-        }
-        public int Save()
-        {
-            return context.SaveChanges();
-        }
+    public int Save()
+    {
+        return _context.SaveChanges();
     }
 }
