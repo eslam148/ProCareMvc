@@ -48,28 +48,30 @@ namespace ProCareMvc.presentation.Controllers
             {
                 return NotFound();
             }
+
+            Doctor? doctor = await unitOfWork.Doctor.GetByIdAsync(department.ManagerId);
+            Hospital? hospital = await unitOfWork.Hospital.GetByIdAsync(department.HospitalId);
+
             var departmentVM = new DepartmentVM
             {
                 Name = department.Name,
                 ManagerId = department.ManagerId,
                 HospitalId = department.HospitalId,
+                DoctorObj = doctor,
+                Hospital = hospital
             };
-            departmentVM.DoctorObj.Id = department.ManagerId;
-            departmentVM.Hospital.Id = department.HospitalId;
-
             return View(departmentVM);
         }
 
         // GET: DepartmentController/Create
         public IActionResult Create()
         {
-            string guidString = "5b41fb0b-07c6-4436-0cfa-08dd6bd779df";
-            guidString = guidString.Replace(" ", "");
+
             DepartmentVM model = new DepartmentVM
             {
                 Hospitals = unitOfWork.Hospital.GetAll().ToList(),
                 Doctors = unitOfWork.Doctor.GetAll().ToList(),
-                ManagerId = Guid.Parse(guidString)
+                /*ManagerId = Guid.Parse(guidString)*/
             };
             return View(model);
         }

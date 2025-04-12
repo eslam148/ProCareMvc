@@ -37,7 +37,7 @@
                         @foreach (var doctor in Model.Doctors)
                         {
                             <option value="@doctor.Id" selected="@(doctor.Id == Model.ManagerId)">
-                                @doctor.FirstName + " " + @doctor.LastName
+                                @doctor. + " " + @doctor.LastName
                             </option>
                         }
                     </select>

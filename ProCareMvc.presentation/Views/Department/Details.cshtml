@@ -25,7 +25,8 @@
                     </tr>
                     <tr>
                         <th scope="row">Manager</th>
-                        <td>@Model.DoctorObj.FirstName @Model.DoctorObj.LastName</td>
+                        @* <td>@Model.ManagerId</td> *@
+                        <td>@(Model.DoctorObj?.User?.FirstName+ " " +Model.DoctorObj?.User?.LastName)</td>
                     </tr>
                     <tr>
                         <th scope="row">Hospital</th>

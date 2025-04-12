@@ -16,6 +16,11 @@ namespace ProCareMvc.Database
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<TestLab> TestLabs { get; set; }
+        public DbSet<Drug> Drugs { get; set; }
+        public DbSet<User> Users {  get; set; }
+
+        public DbSet<PatientHestory> patientHestories { get; set; }
+
         public AppDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
     
         protected override void OnModelCreating(ModelBuilder builder)

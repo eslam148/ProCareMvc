@@ -20,7 +20,7 @@ namespace ProCareMvc.presentation.Controllers
         }
         public IActionResult ShowPatientHistoryList()
         {
-            List<PatientHestoryVM> hestoryVMs = unitOfWork.PatientHestory
+                List<PatientHestoryVM> hestoryVMs = unitOfWork.PatientHestory
                 .GetAll().Select(ph => new PatientHestoryVM()
                 {
                     Id = ph.Id,
@@ -474,8 +474,11 @@ namespace ProCareMvc.presentation.Controllers
                 HospitalId = labFromDB.HospitalId,
                 Price = labFromDB.Price,
                 TestLab = labFromDB.TestLab.ToList(),
+                Hospital = new Hospital
+                {
+                    Id = labFromDB.HospitalId
+                }
             };
-            labsVM.Hospital.Id = labFromDB.HospitalId;
 
             return View(labsVM);
         }
