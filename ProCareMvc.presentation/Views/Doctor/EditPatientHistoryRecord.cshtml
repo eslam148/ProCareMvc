@@ -1,0 +1,83 @@
+﻿@model ProCareMvc.presentation.Models.PatientHestoryVM
+
+@{
+    ViewData["Title"] = "Edit Patient History Record";
+}
+<br />
+<br />
+
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-12 text-center">
+            <h2 class="text-primary fw-bold">
+                <i class="fa fa-edit me-2"></i> Edit Patient History Record
+            </h2>
+            <p class="text-muted">Update the patient history details below.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 700px; border-radius: 20px;">
+        <div class="card-body px-4 py-4 bg-light" style="border-radius: 20px;">
+            <h4 class="text-center mb-4">Patient History Information</h4>
+            <form asp-action="EditPatientHistoryRecord">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Treatment" class="form-label"></label>
+                    <input asp-for="Treatment" class="form-control" placeholder="Enter Treatment" />
+                    <span asp-validation-for="Treatment" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Diagnosis" class="form-label"></label>
+                    <input asp-for="Diagnosis" class="form-control" placeholder="Enter Diagnosis" />
+                    <span asp-validation-for="Diagnosis" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Medication" class="form-label"></label>
+                    <input asp-for="Medication" class="form-control" placeholder="Enter Medication" />
+                    <span asp-validation-for="Medication" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="VisitDate" class="form-label"></label>
+                    <input asp-for="VisitDate" class="form-control" placeholder="Enter Visit Date" />
+                    <span asp-validation-for="VisitDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="NextAppointment" class="form-label"></label>
+                    <input asp-for="NextAppointment" class="form-control" placeholder="Enter Next Appointment Date" />
+                    <span asp-validation-for="NextAppointment" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserId" class="form-label"></label>
+                    <select asp-for="UserId" class="form-control" asp-items="Model.UsersList">
+                        <option value="">-- Select User --</option>
+                        @foreach (var user in Model.UsersList)
+                        {
+                            <option value="@user.Value">@user.Text</option>
+                        }
+                    </select>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3 text-center">
+                    <button type="submit" class="btn btn-primary shadow rounded-pill px-4 py-2">
+                        <i class="fa fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="ShowPatientHistoryList" class="btn btn-danger shadow rounded-pill px-4 py-2">
+            <i class="fa fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />

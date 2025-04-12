@@ -26,5 +26,6 @@ namespace ProCareMvc.Database.Entity
         public ICollection<OrderItem> OrderItems { get; set; } //show list of order which subscribe with doc ID
         public Patient Patient { get; set; }
 
+
     }
 }

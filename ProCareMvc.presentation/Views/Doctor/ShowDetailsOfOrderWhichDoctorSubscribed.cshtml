@@ -1,0 +1,57 @@
+﻿@model ProCareMvc.presentation.Models.OrderVM
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+<br />
+<br />
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-12 text-center">
+            <h2 class="text-primary fw-bold">
+                <i class="fa fa-file-medical me-2"></i> Order Details
+            </h2>
+            <p class="text-muted">Below is the detailed information about the order.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 700px; border-radius: 20px;">
+        <div class="card-body px-4 py-4 bg-light" style="border-radius: 20px;">
+            <table class="table table-borderless mb-0">
+                <tbody>
+
+                    <tr>
+                        <th scope="row">Patient ID</th>
+                        <td>@Model.Patient.User.FirstName + @Model.Patient.User.LastName</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Payment Method</th>
+                        <td>@Model.PaymentMethod</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Price</th>
+                        <td>@Model.TotalPrice</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Order Date</th>
+                        <td>@Model.DateOrder.ToShortDateString()</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Status</th>
+                        <td>@Model.Status</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="ShowListOfOrderWhichDoctorSubscribed" asp-route-id="@Model.Id" class="btn btn-success shadow rounded-pill px-4 py-2 me-2">
+            <i class="fa fa-edit"></i> Edit
+        </a>
+
+        <a asp-action="ShowListOfOrderWhichDoctorSubscribed" class="btn btn-danger shadow rounded-pill px-4 py-2">
+            <i class="fa fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>

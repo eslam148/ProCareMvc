@@ -52,8 +52,11 @@ namespace ProCareMvc.presentation.Controllers
             {
                 Name = department.Name,
                 ManagerId = department.ManagerId,
-                HospitalId = department.HospitalId
+                HospitalId = department.HospitalId,
             };
+            departmentVM.DoctorObj.Id = department.ManagerId;
+            departmentVM.Hospital.Id = department.HospitalId;
+
             return View(departmentVM);
         }
 
@@ -130,8 +133,7 @@ namespace ProCareMvc.presentation.Controllers
                 deptFromReq.Doctors = unitOfWork.Doctor.GetAll().ToList();
                 return View(deptFromReq);
             }
-            try
-            {
+            
                 Department deptFromDB = await unitOfWork.Department.GetByIdAsync(id);
                 if (deptFromDB == null)
                 {
@@ -142,6 +144,8 @@ namespace ProCareMvc.presentation.Controllers
                 deptFromDB.HospitalId = deptFromReq.HospitalId;
 
                 await unitOfWork.Department.ExecuteUpdateAsync(deptFromDB);
+            try
+            {
                 unitOfWork.Save();
 
                 return RedirectToAction("Index");

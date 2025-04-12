@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ProCareMvc.presentation.Models.DepartmentVM>
+﻿@model IEnumerable<ProCareMvc.presentation.Models.PatientHestoryVM>
 
 @{
-    ViewData["Title"] = "Department List";
+    ViewData["Title"] = "ShowPatientHistoryList";
 }
 <br />
 <br />
@@ -10,12 +10,12 @@
     <div class="row mb-4 align-items-center">
         <div class="col-md-6">
             <h2 class="text-primary fw-bold">
-                <i class="fa fa-building me-2"></i> Department List
+                <i class="fa fa-history me-2"></i> Patient History List
             </h2>
         </div>
         <div class="col-md-6 text-md-end text-sm-start">
-            <a asp-action="Create" class="btn btn-success shadow rounded-pill px-4 py-2">
-                <i class="fa fa-plus"></i> Add New Department
+            <a asp-action="CreatePatientHistoryRecord" class="btn btn-success shadow rounded-pill px-4 py-2">
+                <i class="fa fa-plus-circle"></i> Create New Record
             </a>
         </div>
     </div>
@@ -27,20 +27,24 @@
                        style="background-color: #f8f9fa; border-radius: 15px; overflow: hidden;">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th>Name</th>
-                            <th class="text-center" style="width: 160px;">Actions</th>
+                            <th>User Name</th>
+                            <th>VisitDate</th>
+                            <th>NextAppointment</th>
+                            <th class="text-center" style="width: 200px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var department in Model)
+                        @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@department.Name</td>
+                                <td>@item.User.FirstName + @item.User.LastName</td>
+                                <td>@item.VisitDate.ToShortDateString()</td>
+                                <td>@item.NextAppointment.ToShortDateString()</td>
                                 <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@department.Id" class="btn btn-sm btn-outline-primary me-2">
+                                    <a asp-action="EditPatientHistoryRecord" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-2">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
-                                    <a asp-action="Details" asp-route-id="@department.Id" class="btn btn-sm btn-outline-info">
+                                    <a asp-action="ShowDetailsOfPatientHistory" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-2">
                                         <i class="fa fa-info-circle"></i> Details
                                     </a>
                                 </td>

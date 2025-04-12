@@ -1,0 +1,60 @@
+﻿@model ProCareMvc.presentation.Models.PatientHestoryVM
+
+@{
+    ViewData["Title"] = "Patient History Details";
+}
+<br />
+<br />
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-12 text-center">
+            <h2 class="text-primary fw-bold">
+                <i class="fa fa-notes-medical me-2"></i> Patient History Details
+            </h2>
+            <p class="text-muted">Below is the detailed information about the patient's medical history.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 700px; border-radius: 20px;">
+        <div class="card-body px-4 py-4 bg-light" style="border-radius: 20px;">
+            <table class="table table-borderless mb-0">
+                <tbody>
+                    <tr>
+                        <th scope="row">User ID</th>
+                        <td>@Model.User.FirstName + @Model.User.LastName</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Treatment</th>
+                        <td>@Model.Treatment</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Diagnosis</th>
+                        <td>@Model.Diagnosis</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Medication</th>
+                        <td>@Model.Medication</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Visit Date</th>
+                        <td>@Model.VisitDate.ToShortDateString()</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Next Appointment</th>
+                        <td>@Model?.NextAppointment.ToShortDateString()</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success shadow rounded-pill px-4 py-2 me-2">
+            <i class="fa fa-edit"></i> Edit
+        </a>
+
+        <a asp-action="ShowPatientHistoryList" class="btn btn-danger shadow rounded-pill px-4 py-2">
+            <i class="fa fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
