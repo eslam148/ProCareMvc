@@ -284,7 +284,7 @@ namespace ProCareMvc.presentation.Controllers
                 DateOrder = orderFromReq.DateOrder,
                 PaymentMethod = orderFromReq.PaymentMethod,
                 Status = orderFromReq.Status,
-                TotalPrice = orderFromReq.TotalPrice,
+                TotalPrice = (int)orderFromReq.TotalPrice,
                 OrderItems = orderFromReq.OrderItems.ToList(),
                 PatientId = Guid.Parse(idFromCookies)
             };
