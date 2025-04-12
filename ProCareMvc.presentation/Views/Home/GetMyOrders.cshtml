@@ -2,27 +2,66 @@
 @{
     ViewData["Title"] = "My Orders";
 }
-<h1>My Orders</h1>
-<p>Here are your orders:</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Order Date</th>
-            <th>Total Amount</th>
-            <th>Status</th>
-            <th>Details</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
-        {
-            <tr>
-                <td>@order.Id</td>
-                <td>@order.DateOrder.ToString("MM/dd/yyyy")</td>
-                <td>@order.TotalPrice.ToString("C")</td>
-                <td>@order.Status</td>
-                <td><a class=" btn btn-primary" asp-controller="Home" asp-action="GetMyOrdersById" asp-route-id="@order.Id">Details</a></td>
-            </tr>
-        }
-    </tbody>
+
+<section class="container " style="margin-block:10%">
+    <h2 class="text-center mb-4">My Orders</h2>
+    <p class="text-muted text-center">Below is a list of your recent orders.</p>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-hover table-bordered shadow-sm mt-4">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>#</th>
+                    <th>Order Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr class="text-center align-middle">
+                        <td>@(i + 1)</td>
+                        <td>@Model[i].DateOrder.ToString("MMM dd, yyyy")</td>
+                        <td>@Model[i].TotalPrice.ToString("C")</td>
+                        <td>
+                            @if (Model[i].Status == "Completed")
+                            {
+                                <span class="badge bg-success">@Model[i].Status</span>
+                            }
+                            else if (Model[i].Status == "Success")
+                            {
+                                <span class="badge bg-primary">@Model[i].Status</span>
+                            }
+                            else if (Model[i].Status == "Pending")
+                            {
+                                <span class="badge bg-warning">@Model[i].Status</span>
+                            }
+                            else if (Model[i].Status == "Warning")
+                            {
+                                <span class="badge bg-danger">@Model[i].Status</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@Model[i].Status</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="Home" asp-action="GetMyOrdersById" asp-route-id="@Model[i].Id" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center mt-4">
+            You don't have any orders yet.
+        </div>
+    }
+</section>
