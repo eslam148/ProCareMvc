@@ -225,6 +225,23 @@ public class AccountController(IUnitOfWork unitOfWork, SignInManager<User> signI
 
 
 
+
+        IdentityResult result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        if (result.Succeeded)
+        {
+
+            await _signInManager.RefreshSignInAsync(user);
+            return RedirectToAction("Index", "Home");
+        }
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+        return View(model);
+
+
+
+    }
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterVM userFromReq)
