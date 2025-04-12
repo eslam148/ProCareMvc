@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ProCareMvc.presentation.Models.HospitalVM>
+﻿@model IEnumerable<ProCareMvc.presentation.Models.PatientHestoryVM>
 
 @{
-    ViewData["Title"] = "Hospital List";
+    ViewData["Title"] = "ShowPatientHistoryList";
 }
 <br />
 <br />
@@ -10,12 +10,12 @@
     <div class="row mb-4 align-items-center">
         <div class="col-md-6">
             <h2 class="text-primary fw-bold">
-                <i class="fa fa-hospital-o me-2"></i>Hospital List
+                <i class="fa fa-history me-2"></i> Patient History List
             </h2>
         </div>
         <div class="col-md-6 text-md-end text-sm-start">
-            <a asp-action="Create" class="btn btn-success shadow rounded-pill px-4 py-2">
-                <i class="fa fa-plus"></i> Add New Hospital
+            <a asp-action="CreatePatientHistoryRecord" class="btn btn-success shadow rounded-pill px-4 py-2">
+                <i class="fa fa-plus-circle"></i> Create New Record
             </a>
         </div>
     </div>
@@ -23,30 +23,28 @@
     <div class="card shadow-lg border-0" style="border-radius: 20px;">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0" 
+                <table class="table table-bordered table-hover align-middle mb-0"
                        style="background-color: #f8f9fa; border-radius: 15px; overflow: hidden;">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th class="text-center" style="width: 160px;">Actions</th>
+                            <th>User Name</th>
+                            <th>VisitDate</th>
+                            <th>NextAppointment</th>
+                            <th class="text-center" style="width: 200px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var hospital in Model)
+                        @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@hospital.Name</td>
-                                <td>@hospital.Address</td>
-                                <td>@hospital.PhoneNumber</td>
-                                <td>@hospital.Email</td>
+                                <td>@item.User.FirstName + @item.User.LastName</td>
+                                <td>@item.VisitDate.ToShortDateString()</td>
+                                <td>@item.NextAppointment.ToShortDateString()</td>
                                 <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@hospital.ID" class="btn btn-sm btn-outline-primary me-2">
+                                    <a asp-action="EditPatientHistoryRecord" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-2">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
-                                    <a asp-action="Details" asp-route-id="@hospital.ID" class="btn btn-sm btn-outline-info">
+                                    <a asp-action="ShowDetailsOfPatientHistory" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-2">
                                         <i class="fa fa-info-circle"></i> Details
                                     </a>
                                 </td>

@@ -41,6 +41,7 @@ namespace ProCareMvc.presentation.Controllers
             }
             var hospitalVM = new HospitalVM
             {
+                ID = hospital.Id,
                 Name = hospital.Name,
                 Address = hospital.Address,
                 PhoneNumber = hospital.PhoneNumber,
@@ -81,7 +82,7 @@ namespace ProCareMvc.presentation.Controllers
         // GET: HospitalController/Edit/5
         public async Task<ActionResult> Edit(Guid id)
         {
-            Hospital hospitalFromDb = await unitOfWork.Hospital.GetByIdAsync(id);
+            Hospital? hospitalFromDb = await unitOfWork.Hospital.GetByIdAsync(id);
             if (hospitalFromDb == null)
             {
                 return NotFound();
@@ -106,7 +107,7 @@ namespace ProCareMvc.presentation.Controllers
                 return View(hospitalVM);
             }
 
-            Hospital hospital = await unitOfWork.Hospital.GetByIdAsync(id);
+            Hospital? hospital = await unitOfWork.Hospital.GetByIdAsync(id);
             if (hospital == null)
             {
                 return NotFound();
@@ -122,9 +123,7 @@ namespace ProCareMvc.presentation.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
         // GET: HospitalController/Delete/5
-
 
         // POST: HospitalController/Delete/5
         [HttpPost]

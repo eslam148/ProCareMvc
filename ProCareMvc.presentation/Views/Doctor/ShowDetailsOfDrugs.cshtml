@@ -1,0 +1,59 @@
+﻿@model ProCareMvc.presentation.Models.DrugsVM
+
+@{
+    ViewData["Title"] = "ShowDetailsOfDrugs";
+}
+<br /><br />
+<h1 class="text-primary fw-bold mb-4">
+    <i class="fa fa-medkit me-2"></i> Drug Details
+</h1>
+
+<div class="container">
+    <div class="card shadow-lg border-0 mb-4" style="border-radius: 20px;">
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="bg-light">Name</th>
+                            <td><span asp-for="Name" class="form-control-plaintext"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Description</th>
+                            <td><span asp-for="Description" class="form-control-plaintext"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Price</th>
+                            <td><span asp-for="Price" class="form-control-plaintext"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Stock Quantity</th>
+                            <td><span asp-for="StockQuantity" class="form-control-plaintext"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Active Ingredient</th>
+                            <td><span asp-for="ActiveIngredient" class="form-control-plaintext"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Active Ingredient Concentration</th>
+                            <td><span asp-for="ActiveIngredientConcentration" class="form-control-plaintext"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Hospital Name</th>
+                            <td><span>@Model.Hospital.Name</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-end">
+                <a asp-action="EditQuereyOfDrugs" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a asp-action="ShowDrugsList" class="btn btn-outline-secondary">
+                    <i class="fa fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

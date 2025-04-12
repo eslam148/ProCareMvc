@@ -38,6 +38,7 @@ namespace ProCareMvc.business
         public ILabRepository Lab { get; } = new LabRepository(appContext);
 
         public ITestLabRepository TestLab { get; } = new TestLabRepository(appContext);
+        public IPatientHestoryRepository PatientHestory { get; } = new PatientHestoryRepository(appContext);
 
         public IUserRepository User { get; } = new UserRepository(appContext);
 

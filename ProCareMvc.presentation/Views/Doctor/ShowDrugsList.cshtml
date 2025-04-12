@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ProCareMvc.presentation.Models.HospitalVM>
+﻿@model IEnumerable<ProCareMvc.presentation.Models.DrugsVM>
 
 @{
-    ViewData["Title"] = "Hospital List";
+    ViewData["Title"] = "Drugs List";
 }
 <br />
 <br />
@@ -10,12 +10,12 @@
     <div class="row mb-4 align-items-center">
         <div class="col-md-6">
             <h2 class="text-primary fw-bold">
-                <i class="fa fa-hospital-o me-2"></i>Hospital List
+                <i class="fa fa-medkit me-2"></i>Drugs List
             </h2>
         </div>
         <div class="col-md-6 text-md-end text-sm-start">
-            <a asp-action="Create" class="btn btn-success shadow rounded-pill px-4 py-2">
-                <i class="fa fa-plus"></i> Add New Hospital
+            <a asp-action="CreateQueryForDrugs" class="btn btn-success shadow rounded-pill px-4 py-2">
+                <i class="fa fa-plus"></i> Add New Drug
             </a>
         </div>
     </div>
@@ -23,30 +23,30 @@
     <div class="card shadow-lg border-0" style="border-radius: 20px;">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0" 
+                <table class="table table-bordered table-hover align-middle mb-0"
                        style="background-color: #f8f9fa; border-radius: 15px; overflow: hidden;">
                     <thead class="bg-dark text-white">
                         <tr>
                             <th>Name</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Email</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Hospital Name</th>
                             <th class="text-center" style="width: 160px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var hospital in Model)
+                        @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@hospital.Name</td>
-                                <td>@hospital.Address</td>
-                                <td>@hospital.PhoneNumber</td>
-                                <td>@hospital.Email</td>
+                                <td>@item.Name</td>
+                                <td>@item.Price</td>
+                                <td>@item.StockQuantity</td>
+                                <td>@item.Hospital.Name</td>
                                 <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@hospital.ID" class="btn btn-sm btn-outline-primary me-2">
+                                    <a asp-action="EditQuereyOfDrugs" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-2">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
-                                    <a asp-action="Details" asp-route-id="@hospital.ID" class="btn btn-sm btn-outline-info">
+                                    <a asp-action="ShowDetailsOfDrugs" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">
                                         <i class="fa fa-info-circle"></i> Details
                                     </a>
                                 </td>

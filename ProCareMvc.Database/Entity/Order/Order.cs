@@ -23,8 +23,9 @@ namespace ProCareMvc.Database.Entity
         public DateTime DateOrder {  get; set; }
         public string Status {  get; set; }
 
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; } //show list of order which subscribe with doc ID
         public Patient Patient { get; set; }
+
 
     }
 }

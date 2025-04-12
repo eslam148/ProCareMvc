@@ -8,6 +8,7 @@ using ProCareMvc.business.InterfaceReposatory;
 
 namespace ProCareMvc.business
 {
+    
     public interface IUnitOfWork: IDisposable
     {
         IOrderRepository Order { get; }
@@ -21,6 +22,7 @@ namespace ProCareMvc.business
         IPatientRepository Patient { get; }
         ILabRepository Lab { get; }
         ITestLabRepository TestLab { get; }
+        IPatientHestoryRepository PatientHestory { get; }
         IUserRepository User { get; }
        
 

@@ -5,7 +5,7 @@ namespace ProCareMvc.presentation.Models
 {
     public class HospitalVM
     {
-        public Guid?ID { get; set; }
+        public Guid? ID { get; set; }
         [Required]
         public string Name {  get; set; }
         public string Address { get; set; }
@@ -15,6 +15,6 @@ namespace ProCareMvc.presentation.Models
 
         [Required, EmailAddress]
         public string Email { get; set; }
-        public List<Department> Departments { get; set; }
+        public List<Department>? Departments { get; set; }
     }
 }

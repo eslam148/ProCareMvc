@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ProCareMvc.presentation.Models.OrderVM>
+
+@{
+    ViewData["Title"] = "Orders Subscribed by Doctor";
+}
+<br />
+<br />
+
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h2 class="text-primary fw-bold">
+                <i class="fa fa-file-medical me-2"></i> Orders Subscribed by Doctor
+            </h2>
+        </div>
+        <div class="col-md-6 text-md-end text-sm-start">
+            <a asp-action="CreateQueryForOrderWhichDoctorSubscriped" class="btn btn-success shadow rounded-pill px-4 py-2">
+                <i class="fa fa-plus-circle"></i> Create New Order
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0" style="border-radius: 20px;">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle mb-0"
+                       style="background-color: #f8f9fa; border-radius: 15px; overflow: hidden;">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>TotalPrice</th>
+                            <th>DateOrder</th>
+                            <th>Status</th>
+                            <th class="text-center" style="width: 200px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Patient.User.FirstName + @item.Patient.User.LastName</td>
+                                <td>@item.TotalPrice.ToString()</td>
+                                <td>@item.DateOrder.ToShortDateString()</td>
+                                <td>
+                                    <span class="badge bg-info text-dark">@item.Status</span>
+                                </td>
+                                <td class="text-center">
+                                    <a asp-action="ShowDetailsOfOrderWhichDoctorSubscribed" 
+                                            asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-2">
+                                        <i class="fa fa-info-circle"></i> Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

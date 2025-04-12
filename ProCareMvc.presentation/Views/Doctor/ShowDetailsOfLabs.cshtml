@@ -1,0 +1,42 @@
+﻿@model ProCareMvc.presentation.Models.LabsVM
+
+@{
+    ViewData["Title"] = "ShowDetailsOfLabs";
+}
+<br /><br />
+<h1 class="text-primary fw-bold mb-4">
+    <i class="fa fa-flask me-2"></i> Lab Details
+</h1>
+
+<div class="container">
+    <div class="card shadow-lg border-0 mb-4" style="border-radius: 20px;">
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="w-25 bg-light">Name</th>
+                            <td><span asp-for="Name" class="form-control-plaintext"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Price</th>
+                            <td><span asp-for="Price" class="form-control-plaintext"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Hospital Name</th>
+                            <td><span>@Model.Hospital.Name</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 d-flex justify-content-end">
+                <a asp-action="EditQuereyOfLabs" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                <a asp-action="ShowLabsList" class="btn btn-outline-secondary">
+                    <i class="fa fa-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

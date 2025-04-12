@@ -1,0 +1,91 @@
+﻿@model ProCareMvc.presentation.Models.DrugsVM
+
+@{
+    ViewData["Title"] = "Edit Query of Drugs";
+}
+
+<br />
+<br />
+
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-12 text-center">
+            <h2 class="text-primary fw-bold">
+                <i class="fa fa-medkit me-2"></i> Edit Query of Drugs
+            </h2>
+            <p class="text-muted">Update the drug details below.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 700px; border-radius: 20px;">
+        <div class="card-body px-4 py-4 bg-light" style="border-radius: 20px;">
+            <h4 class="text-center mb-4">Drug Information</h4>
+            <form asp-action="EditQuereyOfDrugs">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="form-label">Drug Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Price" class="form-label">Price</label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="StockQuantity" class="form-label">Stock Quantity</label>
+                    <input asp-for="StockQuantity" class="form-control" />
+                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ActiveIngredient" class="form-label">Active Ingredient</label>
+                    <input asp-for="ActiveIngredient" class="form-control" />
+                    <span asp-validation-for="ActiveIngredient" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ActiveIngredientConcentration" class="form-label">Active Ingredient Concentration</label>
+                    <input asp-for="ActiveIngredientConcentration" class="form-control" />
+                    <span asp-validation-for="ActiveIngredientConcentration" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="HospitalId" class="form-label">Select Hospital</label>
+                    <select asp-for="HospitalId" class="form-control">
+                        <option value="">-- Select Hospital --</option>
+                        @if (Model.Hospitals != null)
+                        {
+                            foreach (var hospital in Model.Hospitals)
+                            {
+                                <option value="@hospital.Id">@hospital?.Name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="HospitalId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3 text-center">
+                    <input type="submit" value="Save Changes" class="btn btn-primary shadow rounded-pill px-4 py-2" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="ShowDrugsList" class="btn btn-danger shadow rounded-pill px-4 py-2">
+            <i class="fa fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
