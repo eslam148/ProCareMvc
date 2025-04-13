@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ProCareMvc.business;
 using ProCareMvc.Database.Entity;
 using ProCareMvc.presentation.Models;
@@ -49,16 +51,20 @@ namespace ProCareMvc.presentation.Controllers
                 return NotFound();
             }
 
-            Doctor? doctor = await unitOfWork.Doctor.GetByIdAsync(department.ManagerId);
+            Doctor? doctor = await unitOfWork.Doctor
+                .GetAll()
+                .Include(d => d.User)
+                .FirstOrDefaultAsync(d => d.Id == department.ManagerId);
             Hospital? hospital = await unitOfWork.Hospital.GetByIdAsync(department.HospitalId);
 
             var departmentVM = new DepartmentVM
             {
+                Id = department.Id,
                 Name = department.Name,
                 ManagerId = department.ManagerId,
                 HospitalId = department.HospitalId,
+                Hospital = hospital,
                 DoctorObj = doctor,
-                Hospital = hospital
             };
             return View(departmentVM);
         }
@@ -70,7 +76,9 @@ namespace ProCareMvc.presentation.Controllers
             DepartmentVM model = new DepartmentVM
             {
                 Hospitals = unitOfWork.Hospital.GetAll().ToList(),
-                Doctors = unitOfWork.Doctor.GetAll().ToList(),
+                Doctors = unitOfWork.Doctor
+                .GetAll()
+                .Include(d => d.User).ToList()
                 /*ManagerId = Guid.Parse(guidString)*/
             };
             return View(model);
@@ -89,6 +97,7 @@ namespace ProCareMvc.presentation.Controllers
                     Name = deptFromReq.Name,
                     HospitalId = deptFromReq.HospitalId,
                     ManagerId = deptFromReq.ManagerId,
+
                 };
                 await unitOfWork.Department.InsertAsync(DeptToDB);
                 unitOfWork.Save();
@@ -96,7 +105,9 @@ namespace ProCareMvc.presentation.Controllers
                                 
             }
             deptFromReq.Hospitals = unitOfWork.Hospital.GetAll().ToList();
-            deptFromReq.Doctors = unitOfWork.Doctor.GetAll().ToList();
+            deptFromReq.Doctors = unitOfWork.Doctor.GetAll()
+            .Include(d => d.User).ToList();
+
             return View(deptFromReq);
         }
 
@@ -114,7 +125,8 @@ namespace ProCareMvc.presentation.Controllers
                 ManagerId = deptFromDB.ManagerId,
                 HospitalId = deptFromDB.HospitalId,
                 Hospitals = unitOfWork.Hospital.GetAll().ToList(),
-                Doctors = unitOfWork.Doctor.GetAll().ToList()
+                Doctors = unitOfWork.Doctor.GetAll()
+                    .Include(d => d.User).ToList(),
             };
             return View(departmentVM);
         }
@@ -132,7 +144,9 @@ namespace ProCareMvc.presentation.Controllers
             if (!ModelState.IsValid)
             {
                 deptFromReq.Hospitals = unitOfWork.Hospital.GetAll().ToList();
-                deptFromReq.Doctors = unitOfWork.Doctor.GetAll().ToList();
+                deptFromReq.Doctors = unitOfWork.Doctor.GetAll()
+                    .Include(d => d.User).ToList();
+
                 return View(deptFromReq);
             }
             
@@ -156,7 +170,9 @@ namespace ProCareMvc.presentation.Controllers
             {
                 ModelState.AddModelError("", "An error occurred while updating: " + ex.Message);
                 deptFromReq.Hospitals = unitOfWork.Hospital.GetAll().ToList();
-                deptFromReq.Doctors = unitOfWork.Doctor.GetAll().ToList();
+                deptFromReq.Doctors = unitOfWork.Doctor.GetAll()
+                        .Include(d => d.User).ToList();
+
                 return View(deptFromReq);
             }
         }

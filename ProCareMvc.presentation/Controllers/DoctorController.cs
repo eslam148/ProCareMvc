@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProCareMvc.presentation.Controllers
 {
@@ -21,7 +22,7 @@ namespace ProCareMvc.presentation.Controllers
         public IActionResult ShowPatientHistoryList()
         {
                 List<PatientHestoryVM> hestoryVMs = unitOfWork.PatientHestory
-                .GetAll().Select(ph => new PatientHestoryVM()
+                .GetAll().Include( ph => ph.User).Select(ph => new PatientHestoryVM()
                 {
                     Id = ph.Id,
                     Diagnosis = ph.Diagnosis,
@@ -30,6 +31,7 @@ namespace ProCareMvc.presentation.Controllers
                     VisitDate = ph.VisitDate,
                     NextAppointment = ph.NextAppointment,
                     UserId = ph.UserId,
+                    User = ph.User,
                 }).ToList();
             return View(hestoryVMs);
         }
@@ -37,7 +39,8 @@ namespace ProCareMvc.presentation.Controllers
         // GET: ShowController/Details/5
         public async Task<IActionResult> ShowDetailsOfPatientHistory(Guid id)
         {
-            PatientHestory? patnthstryFrmDB = await unitOfWork.PatientHestory.GetByIdAsync(id);
+            PatientHestory? patnthstryFrmDB = await unitOfWork.PatientHestory.GetAll()
+                .Include(ph => ph.User).SingleOrDefaultAsync( ph => ph.Id == id);
             if (patnthstryFrmDB == null)
             {
                 return NotFound();
@@ -51,6 +54,7 @@ namespace ProCareMvc.presentation.Controllers
                 VisitDate = patnthstryFrmDB.VisitDate,
                 NextAppointment = patnthstryFrmDB.NextAppointment,
                 UserId = patnthstryFrmDB.UserId,
+                User = patnthstryFrmDB.User,
             };
             return View(patenthstryVM);
         }
@@ -58,17 +62,12 @@ namespace ProCareMvc.presentation.Controllers
         [HttpGet]
         public IActionResult CreatePatientHistoryRecord()
         {
-            var usersList = unitOfWork.Patient.GetAll()
-                .Include(p => p.User)
-                .Select(p => new SelectListItem
-                {
-                    Value = p.UserId.ToString(),
-                    Text = p.User.FirstName + " " + p.User.LastName,
-                }).ToList();
+            List<Patient> patients = unitOfWork.Patient.GetAll()
+                .Include(p => p.User).ToList();
 
             PatientHestoryVM patientHestory = new PatientHestoryVM()
             {
-                UsersList = usersList
+                Patients = patients
             };
             return View(patientHestory);
         }
@@ -77,8 +76,8 @@ namespace ProCareMvc.presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePatientHistoryRecord(PatientHestoryVM model)
         {
-            if (ModelState.IsValid && model.NextAppointment > model.VisitDate)
-            {
+            if (ModelState.IsValid)
+            {          
                 PatientHestory patientHestoryToDB = new PatientHestory()
                 {
                     Diagnosis = model.Diagnosis,
@@ -90,21 +89,14 @@ namespace ProCareMvc.presentation.Controllers
                 };
                 await unitOfWork.PatientHestory.InsertAsync(patientHestoryToDB);
                 unitOfWork.Save();
+
                 return RedirectToAction(nameof(ShowPatientHistoryList));
             }
 
-            var usersList = unitOfWork.Patient.GetAll()
-                .Include(p => p.User)
-                .Select(p => new SelectListItem
-                {
-                    Value = p.UserId.ToString(),
-                    Text = p.User.FirstName + " " + p.User.LastName,
-                }).ToList();
+            List<Patient> patients = unitOfWork.Patient.GetAll()
+                .Include(p => p.User).ToList();
+            model.Patients = patients;
 
-            PatientHestoryVM patientHestory = new PatientHestoryVM()
-            {
-                UsersList = usersList
-            };
             return View(model);
         }
 
@@ -118,13 +110,8 @@ namespace ProCareMvc.presentation.Controllers
                 return NotFound();
             }
 
-            var usersList = unitOfWork.Patient.GetAll()
-                .Include(p => p.User)
-                .Select(p => new SelectListItem
-                {
-                    Value = p.UserId.ToString(),
-                    Text = p.User.FirstName + " " + p.User.LastName
-                }).ToList();
+            List<Patient> patients = unitOfWork.Patient.GetAll()
+                .Include(p => p.User).ToList();
 
             PatientHestoryVM model = new PatientHestoryVM()
             {
@@ -135,7 +122,7 @@ namespace ProCareMvc.presentation.Controllers
                 Medication = patientHestoryFromDB.Medication,
                 VisitDate = patientHestoryFromDB.VisitDate,
                 NextAppointment = patientHestoryFromDB.NextAppointment,
-                UsersList = usersList
+                Patients = patients
             };
             return View(model);
         }
@@ -143,7 +130,7 @@ namespace ProCareMvc.presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditPatientHistoryRecord(Guid id, PatientHestoryVM modelFromReq)
         {
-            if (ModelState.IsValid && modelFromReq.NextAppointment > modelFromReq.VisitDate)
+            if (ModelState.IsValid)
             {
                 PatientHestory? patientHestoryFromDB = await unitOfWork.PatientHestory
                     .GetByIdAsync(id);
@@ -153,7 +140,6 @@ namespace ProCareMvc.presentation.Controllers
                     return NotFound();
                 }
 
-                patientHestoryFromDB.Id = modelFromReq.Id;
                 patientHestoryFromDB.UserId = modelFromReq.UserId;
                 patientHestoryFromDB.Diagnosis = modelFromReq.Diagnosis;
                 patientHestoryFromDB.Treatment = modelFromReq.Treatment;
@@ -168,15 +154,10 @@ namespace ProCareMvc.presentation.Controllers
             }
             else
             {
-                var usersList = unitOfWork.Patient.GetAll()
-                .Include(p => p.User)
-                .Select(p => new SelectListItem
-                {
-                    Value = p.UserId.ToString(),
-                    Text = p.User.FirstName + " " + p.User.LastName
-                }).ToList();
+                List<Patient> patients = unitOfWork.Patient.GetAll()
+                .Include(p => p.User).ToList();
 
-                modelFromReq.UsersList = usersList;
+                modelFromReq.Patients = patients;
 
                 return View(modelFromReq);
             }
@@ -191,6 +172,8 @@ namespace ProCareMvc.presentation.Controllers
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.Appointments)
                         .ThenInclude(app => app.Doctor)
+                .Include(o => o.Patient)
+                    .ThenInclude(p => p.User)
                 .Where(o => o.OrderItems
                     .Any(oi => oi.Appointments
                         .Any(app => app.DoctorId != null)))
@@ -203,6 +186,7 @@ namespace ProCareMvc.presentation.Controllers
                     Status = o.Status,
                     TotalPrice = o.TotalPrice,
                     OrderItems = o.OrderItems.ToList(),
+                    Patient = o.Patient
                 }).ToList();
 
             return View(orderVMs);
@@ -210,7 +194,10 @@ namespace ProCareMvc.presentation.Controllers
 
         public async Task<IActionResult> ShowDetailsOfOrderWhichDoctorSubscribed(Guid id)
         {
-            Order? orderFromDB = await unitOfWork.Order.GetByIdAsync(id);
+            Order? orderFromDB = await unitOfWork.Order.GetAll()
+                .Include(o => o.Patient)
+                    .ThenInclude(p => p.User).SingleOrDefaultAsync(o => o.Id == id);
+
             if (orderFromDB == null)
             {
                 return NotFound();
@@ -223,9 +210,9 @@ namespace ProCareMvc.presentation.Controllers
                 PaymentMethod = orderFromDB.PaymentMethod,
                 Status = orderFromDB.Status,
                 TotalPrice = orderFromDB.TotalPrice,
+                Patient = orderFromDB.Patient,
                 OrderItems = orderFromDB.OrderItems.ToList(),
             };
-            orderVM.Patient.Id = orderFromDB.PatientId;
 
             return View();
         }
@@ -284,7 +271,7 @@ namespace ProCareMvc.presentation.Controllers
                 DateOrder = orderFromReq.DateOrder,
                 PaymentMethod = orderFromReq.PaymentMethod,
                 Status = orderFromReq.Status,
-                TotalPrice = orderFromReq.TotalPrice,
+                //TotalPrice = orderFromReq.TotalPrice,
                 OrderItems = orderFromReq.OrderItems.ToList(),
                 PatientId = Guid.Parse(idFromCookies)
             };
@@ -320,7 +307,9 @@ namespace ProCareMvc.presentation.Controllers
 
         public async Task<IActionResult> ShowDetailsOfDrugs(Guid id)
         {
-            Drug? drugFromDB = await unitOfWork.Drug.GetByIdAsync(id);
+            Drug? drugFromDB = await unitOfWork.Drug.GetAll()
+                .Include(d => d.Hospital)
+                .SingleOrDefaultAsync(d => d.Id == id);
             if (drugFromDB == null)
             {
                 return NotFound();
@@ -335,8 +324,8 @@ namespace ProCareMvc.presentation.Controllers
                 ActiveIngredient = drugFromDB.ActiveIngredient,
                 StockQuantity = drugFromDB.StockQuantity,
                 ActiveIngredientConcentration = drugFromDB.ActiveIngredientConcentration,
+                Hospital = drugFromDB.Hospital,
             };
-            drugsVM.Hospital.Id = drugFromDB.HospitalId;
             return View(drugsVM);
         }
         public IActionResult CreateQueryForDrugs()
@@ -386,7 +375,9 @@ namespace ProCareMvc.presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> EditQuereyOfDrugs(Guid id)
         {
-            Drug? drugFromDB = await unitOfWork.Drug.GetByIdAsync(id);
+            Drug? drugFromDB = await unitOfWork.Drug.GetAll()
+                .Include(d => d.Hospital)
+                .SingleOrDefaultAsync(d => d.Id == id);
             if (drugFromDB == null)
             {
                 return NotFound();
@@ -402,9 +393,10 @@ namespace ProCareMvc.presentation.Controllers
                 ActiveIngredient = drugFromDB.ActiveIngredient,
                 StockQuantity = drugFromDB.StockQuantity,
                 ActiveIngredientConcentration = drugFromDB.ActiveIngredientConcentration,
+                Hospital = drugFromDB.Hospital,
                 Hospitals = unitOfWork.Hospital.GetAll().ToList(),
             };
-            drugsVM.Hospital.Id = drugFromDB.HospitalId;
+            
             return View(drugsVM);
         }
 
@@ -416,6 +408,12 @@ namespace ProCareMvc.presentation.Controllers
             {
                 drugsVMFromReq.Hospitals = unitOfWork.Hospital
                         .GetAll().ToList();
+
+                Drug? drugFromDB = await unitOfWork.Drug.GetAll()
+                .Include(d => d.Hospital)
+                .SingleOrDefaultAsync(d => d.Id == id);
+
+                drugsVMFromReq.Hospital = drugFromDB.Hospital;
 
                 return View(drugsVMFromReq);
             }
@@ -447,14 +445,14 @@ namespace ProCareMvc.presentation.Controllers
         public IActionResult ShowLabsList()
         {
             List<LabsVM> labsVM = unitOfWork.Lab
-                .GetAll().Select(l => new LabsVM()
+                .GetAll().Include(l => l.Hospital).Select(l => new LabsVM()
                 {
                     Id = l.Id,
                     Name = l.Name,
                     HospitalId = l.HospitalId,
                     Price = l.Price,
                     Hospital = l.Hospital,
-                    TestLab = l.TestLab.ToList(),
+                    //TestLab = l.TestLab.ToList(),
                 }).ToList();
 
             return View(labsVM);
@@ -462,7 +460,10 @@ namespace ProCareMvc.presentation.Controllers
 
         public async Task<IActionResult> ShowDetailsOfLabs(Guid id)
         {
-            Lab? labFromDB = await unitOfWork.Lab.GetByIdAsync(id);
+            Lab? labFromDB = await unitOfWork.Lab.GetAll()
+                .Include(l => l.Hospital)
+                .SingleOrDefaultAsync(l => l.Id == id);
+
             if (labFromDB == null)
             {
                 return NotFound();
@@ -473,11 +474,8 @@ namespace ProCareMvc.presentation.Controllers
                 Name = labFromDB.Name,
                 HospitalId = labFromDB.HospitalId,
                 Price = labFromDB.Price,
-                TestLab = labFromDB.TestLab.ToList(),
-                Hospital = new Hospital
-                {
-                    Id = labFromDB.HospitalId
-                }
+                //TestLab = labFromDB.TestLab.ToList(),2
+                Hospital = labFromDB.Hospital
             };
 
             return View(labsVM);
@@ -491,7 +489,7 @@ namespace ProCareMvc.presentation.Controllers
                 .GetAll().ToList();
             LabsVM labsVM = new LabsVM()
             {
-                TestLab = testlabFromDB.ToList(),
+                //TestLab = testlabFromDB.ToList(),
                 Hospitals = hospitalsFromDB.ToList(),
             };
             return View(labsVM);
@@ -506,9 +504,10 @@ namespace ProCareMvc.presentation.Controllers
                 .GetAll().ToList();
                 List<TestLab> testlabFromDB = unitOfWork.TestLab
                     .GetAll().ToList();
+
                 LabsVM labsVM = new LabsVM()
                 {
-                    TestLab = testlabFromDB.ToList(),
+                    //TestLab = testlabFromDB.ToList(),
                     Hospitals = hospitalsFromDB.ToList(),
                 };
                 return View(labsVMFromReq);
@@ -518,7 +517,7 @@ namespace ProCareMvc.presentation.Controllers
             {
                 Name = labsVMFromReq.Name,
                 Price = labsVMFromReq.Price,
-                TestLab = labsVMFromReq.TestLab,
+                //TestLab = labsVMFromReq.TestLab,
                 HospitalId = labsVMFromReq.HospitalId,
             };
 
@@ -531,7 +530,9 @@ namespace ProCareMvc.presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> EditQuereyOfLabs(Guid id)
         {
-            Lab? labFromDB = await unitOfWork.Lab.GetByIdAsync(id);
+            Lab? labFromDB = await unitOfWork.Lab.GetAll()
+                .Include(l => l.Hospital)
+                .SingleOrDefaultAsync(l => l.Id == id);
             if (labFromDB == null)
             {
                 return NotFound();
@@ -544,8 +545,8 @@ namespace ProCareMvc.presentation.Controllers
                 HospitalId = labFromDB.HospitalId,
                 Price = labFromDB.Price,
                 Hospitals = unitOfWork.Hospital.GetAll().ToList(),
+                Hospital = labFromDB.Hospital,
             };
-            labVM.Hospital.Id = labFromDB.HospitalId;
 
             return View(labVM);
         }

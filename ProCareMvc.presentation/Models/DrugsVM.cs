@@ -20,8 +20,8 @@ namespace ProCareMvc.presentation.Models
         public double ActiveIngredientConcentration { get; set; }
 
         public Guid HospitalId { get; set; }
-        public Hospital Hospital { get; set; }
-        public List<Hospital> Hospitals { get; set; }
+        public Hospital? Hospital { get; set; }
+        public List<Hospital>? Hospitals { get; set; }
 
 
     }

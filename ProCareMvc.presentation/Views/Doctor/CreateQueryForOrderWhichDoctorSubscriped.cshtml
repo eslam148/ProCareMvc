@@ -24,7 +24,7 @@
                 @* ------------------------------------------- *@
                 <div class="form-group mb-3">
                     <label asp-for="PatientId" class="form-label"></label>
-                    <input value="@Model.Patient.User.FirstName + @Model.Patient.User.LastName" 
+                    <input value="@(Model.Patient.User.FirstName + Model.Patient.User.LastName)" 
                             class="form-control" readonly />
                     <span asp-validation-for="PatientId" class="text-danger"></span>
                 </div>

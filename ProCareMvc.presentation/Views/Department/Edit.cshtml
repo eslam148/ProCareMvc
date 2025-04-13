@@ -34,12 +34,12 @@
                     <label asp-for="ManagerId" class="form-label">Manager</label>
                     <select asp-for="ManagerId" class="form-control">
                         <option value="">-- Select Manager --</option>
-                      @*   @foreach (var doctor in Model.Doctors)
+                     *   @foreach (var doctor in Model.Doctors)
                         {
                             <option value="@doctor.Id" selected="@(doctor.Id == Model.ManagerId)">
-                                @doctor. + " " + @doctor.LastName
+                                @(doctor.User.FirstName + " " + doctor.User.LastName)
                             </option>
-                        } *@
+                        } 
                     </select>
                     <span asp-validation-for="ManagerId" class="text-danger"></span>
                 </div>

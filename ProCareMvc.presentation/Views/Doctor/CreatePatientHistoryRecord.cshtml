@@ -54,11 +54,11 @@
 
                 <div class="form-group mb-3">
                     <label asp-for="UserId" class="form-label">Select User</label>
-                    <select asp-for="UserId" class="form-control" asp-items="Model.UsersList">
+                    <select asp-for="UserId" class="form-control" >
                         <option value="">-- Select User --</option>
-                        @foreach (var user in Model.UsersList)
+                        @foreach (var user in Model.Patients)
                         {
-                            <option value="@user.Value">@user.Text</option>
+                            <option value="@user.UserId">@(user.User.FirstName + " " + user.User.LastName)</option>
                         }
                     </select>
                     <span asp-validation-for="UserId" class="text-danger"></span>

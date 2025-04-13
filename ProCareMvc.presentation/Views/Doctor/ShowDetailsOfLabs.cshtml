@@ -16,15 +16,15 @@
                     <tbody>
                         <tr>
                             <th class="w-25 bg-light">Name</th>
-                            <td><span asp-for="Name" class="form-control-plaintext"></span></td>
+                            <td><span asp-for="" class="form-control-plaintext">@Model.Name</span></td>
                         </tr>
                         <tr>
                             <th class="bg-light">Price</th>
-                            <td><span asp-for="Price" class="form-control-plaintext"></span></td>
+                            <td><span class="form-control-plaintext">@Model.Price</span></td>
                         </tr>
                         <tr>
                             <th class="bg-light">Hospital Name</th>
-                            <td><span>@Model.Hospital.Name</span></td>
+                            <td><span class="form-control-plaintext">@Model.Hospital.Name</span></td>
                         </tr>
                     </tbody>
                 </table>

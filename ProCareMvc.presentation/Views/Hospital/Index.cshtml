@@ -58,3 +58,145 @@
         </div>
     </div>
 </div>
+@*@model IEnumerable<ProCareMvc.presentation.Models.HospitalVM>
+
+@{
+    ViewData["Title"] = "Hospital List";
+}
+
+<div class="container mt-5 mb-5">
+    <!-- Header Section -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h2 class="text-primary font-weight-bold mb-0">
+                <i class="fa fa-hospital-o mr-2"></i>Hospital List
+            </h2>
+        </div>
+        <div class="col-md-6 text-md-right text-sm-left mt-3 mt-md-0">
+            <a asp-action="Create" class="btn btn-success btn-lg shadow-sm rounded-pill px-4">
+                <i class="fa fa-plus mr-1"></i> Add New Hospital
+            </a>
+        </div>
+    </div>
+
+    <!-- Search Bar (Optional) -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search hospitals..." aria-label="Search hospitals">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="card shadow-lg border-0" style="border-radius: 15px; overflow: hidden;">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered mb-0">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Email</th>
+                            <th scope="col" class="text-center" style="width: 200px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var hospital in Model)
+                            {
+                                <tr class="hospital-row">
+                                    <td>@hospital.Name</td>
+                                    <td>@hospital.Address</td>
+                                    <td>@hospital.PhoneNumber</td>
+                                    <td>@hospital.Email</td>
+                                    <td class="text-center">
+                                        <a asp-action="Edit" asp-route-id="@hospital.ID"
+                                           class="btn btn-sm btn-outline-primary mr-1">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@hospital.ID"
+                                           class="btn btn-sm btn-outline-info">
+                                            <i class="fa fa-info-circle"></i> Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    No hospitals found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Custom hover effect for table rows */
+        .hospital-row:hover {
+            background-color: #f1f6ff;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Table cell padding */
+        .table td, .table th {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        /* Button hover effects */
+        .btn-outline-primary:hover, .btn-outline-info:hover {
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive table adjustments */
+        @@media (max-width: 767.98px) {
+            .table
+
+        {
+            font-size: 14px;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .text-md-right {
+            text-align: left !important;
+        }
+
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Optional: Add client-side search functionality
+        $(document).ready(function () {
+            $('.form-control').on('keyup', function () {
+                let value = $(this).val().toLowerCase();
+                $('.hospital-row').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}*@

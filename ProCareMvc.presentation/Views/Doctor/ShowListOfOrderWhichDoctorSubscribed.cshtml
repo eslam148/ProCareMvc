@@ -38,7 +38,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.Patient.User.FirstName + @item.Patient.User.LastName</td>
+                                <td>@(item.Patient.User.FirstName + " " + item.Patient.User.LastName)</td>
                                 <td>@item.TotalPrice.ToString()</td>
                                 <td>@item.DateOrder.ToShortDateString()</td>
                                 <td>

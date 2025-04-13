@@ -22,6 +22,7 @@ namespace ProCareMvc.presentation.Models
         public Guid UserId { get; set; }
 
         public User? User { get; set; }
-        public List<SelectListItem> UsersList { get; set; }
+        public List<Patient>? Patients { get; set; }
+        //public SelectList Patients { get; set; }
     }
 }

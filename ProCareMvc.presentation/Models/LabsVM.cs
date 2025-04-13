@@ -11,11 +11,9 @@ namespace ProCareMvc.presentation.Models
 
         public decimal Price { get; set; }
 
-        public List<TestLab> TestLab { get; set; }
-
         public Guid HospitalId { get; set; }
-        public Hospital Hospital { get; set; }
-        public List<Hospital> Hospitals { get; set; }
+        public Hospital? Hospital { get; set; }
+        public List<Hospital>? Hospitals { get; set; }
 
     }
 }
