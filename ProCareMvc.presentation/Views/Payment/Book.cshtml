@@ -94,7 +94,7 @@
             window.location.href = `/Payment/Cancel?doctorId=@Model.DoctorId`;
         },
         onError: function (err) {
-            alert('An error occurred, please try again .');
+            alert('An error occurred, please try again .',err);
         }
     }).render('#paypal-button');
 </script>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PayPalCheckoutSdk.Core;
 using PayPalHttp;
@@ -12,6 +13,8 @@ using PayPalOrders = PayPalCheckoutSdk.Orders;
 
 namespace ProCareMvc.Presentation.Controllers
 {
+
+    [Authorize]
 
     public class PaymentController : Controller
     {
@@ -84,7 +87,7 @@ namespace ProCareMvc.Presentation.Controllers
                 var mode = new PayPalOrders.AmountWithBreakdown
                 {
                     CurrencyCode = "USD",
-                    Value = model?.Amount.ToString("F2") ?? "5.00",
+                    Value = model?.Amount.ToString("F2") ?? "50.00",
 
                 };
                 var purch = new List<PayPalOrders.PurchaseUnitRequest>

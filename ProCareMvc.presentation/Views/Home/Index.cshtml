@@ -1,90 +1,4 @@
-﻿@* @{ *@
-@*     ViewData["Title"] = "Home Page"; *@
-@* } *@
-@* <section class="hero-wrap js-fullheight" style="background-image: url('images/bg_3.jpg');" data-section="home" data-stellar-background-ratio="0.5"> *@
-@*     <div class="overlay"></div> *@
-@*     <div class="container"> *@
-@*         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true"> *@
-@*             <div class="col-md-6 pt-5 ftco-animate"> *@
-@*                 <div class="mt-5"> *@
-@*                     <span class="subheading">Welcome to Mediplus</span> *@
-@*                     <h1 class="mb-4">We are here <br>for your Care</h1> *@
-@*                     <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove.</p> *@
-@*                     <p><a href="#" class="btn btn-primary py-3 px-4">Make an appointment</a></p> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </section> *@
-@* <section class="ftco-counter img ftco-section ftco-no-pt ftco-no-pb" id="about-section"> *@
-@*     <div class="container"> *@
-@*         <div class="row d-flex"> *@
-@*             <div class="col-md-6 col-lg-5 d-flex"> *@
-@*                 <div class="img d-flex align-self-stretch align-items-center" style="background-image:url(../../images/about.jpg);"> *@
-@*                 </div> *@
-@*             </div> *@
-@*             <div class="col-md-6 col-lg-7 pl-lg-5 py-md-5"> *@
-@*                 <div class="py-md-5"> *@
-@*                     <div class="row justify-content-start pb-3"> *@
-@*                         <div class="col-md-12 heading-section ftco-animate p-4 p-lg-5"> *@
-@*                             <h2 class="mb-4">We Are <span>Mediplus</span> A Medical Clinic</h2> *@
-@*                             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p> *@
-@*                             <p><a href="#" class="btn btn-primary py-3 px-4">Make an appointment</a> <a href="#" class="btn btn-secondary py-3 px-4">Contact us</a></p> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </section> *@
-
-
-
-
-
-
-
-@* @model List<ProCareMvc.presentation.Models.ShowDoctorInHomePageVM> *@
-
-@* @{ *@
-@*     ViewData["Title"] = "Our Doctors"; *@
-@* } *@
-
-@* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> *@
-
-@* <div class="container my-5"> *@
-@*     <h1 class="text-center mb-5 fw-bold text-primary">Our Doctors</h1> *@
-@*     @if (Model == null || !Model.Any()) *@
-@*     { *@
-@*         <p class="text-center text-muted">No doctors available at the moment.</p> *@
-@*     } *@
-@*     else *@
-@*     { *@
-@*         <div class="row g-4"> *@
-@*             @foreach (var doctor in Model) *@
-@*             { *@
-@*                 <div class="col-md-4 col-sm-6"> *@
-@*                     <div class="card h-100 shadow-sm border-0"> *@
-@*                         <img src="/images/@doctor.ImageUrl" class="card-img-top img-fluid rounded-circle mx-auto d-block mt-3" alt="@doctor.FullName" style="width: 150px; height: 150px; object-fit: cover;" /> *@
-@*                         <div class="card-body text-center"> *@
-@*                             <h5 class="card-title fw-semibold text-dark">@doctor.FullName</h5> *@
-@*                             <p class="card-text text-muted mb-2">@doctor.DepartmentName</p> *@
-@*                             <p class="card-text"><strong>Experience:</strong> @doctor.YearsOfExperience Years</p> *@
-@*                             <p class="card-text"><strong>Contact:</strong> @doctor.PhoneNumber</p> *@
-@*                         </div> *@
-@*                         <div class="card-footer bg-transparent border-0"> *@
-@*                             <a asp-action="Details" asp-controller="Home" asp-route-id="@doctor.Id" class="btn btn-outline-primary btn-sm">View Profile</a> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             } *@
-@*         </div> *@
-@*     } *@
-@* </div> *@
-
-@* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script> *@
-
-
+﻿ 
 
 
 @model List<ProCareMvc.presentation.Models.ShowDoctorInHomePageVM>
@@ -93,7 +7,7 @@
     ViewData["Title"] = "Our Doctors";
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+@* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> *@
 <style>
     .doctor-card {
         transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -161,7 +75,7 @@
     }
 </style>
 
-<div class="container my-5">
+<div class="container " style="margin-block:10%">
     <h1 class="text-center mb-4 fw-bold" style="color: #2c3e50;">Our Doctors</h1>
     <div class="search-bar">
         <input type="text" id="searchInput" class="form-control" placeholder="Search by name or department..." />

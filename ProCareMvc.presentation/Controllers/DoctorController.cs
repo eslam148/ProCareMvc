@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 namespace ProCareMvc.presentation.Controllers
 {
+    [Authorize(Roles = "Doctor")]
     public class DoctorController : Controller
     {
         private readonly IUnitOfWork unitOfWork;

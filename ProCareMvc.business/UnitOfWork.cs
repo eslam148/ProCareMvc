@@ -4,27 +4,24 @@ using ProCareMvc.business.Repository;
 using ProCareMvc.business;
 using ProCareMvc.Database;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(AppDbContext appContext) : IUnitOfWork
 {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext _context = appContext;
 
-    public IOrderRepository Order { get; }
-    public IOrderItemRepository OrderItem { get; }
-    public IDrugRepository Drug { get; }
-    public IHospitalRepository Hospital { get; }
-    public ITakeDrugRepository TakeDrug { get; }
-    public IAppointmentRepository Appointment { get; }
-    public IDepartmentRepository Department { get; }
-    public IDoctorRepository Doctor { get; }
-    public IPatientRepository Patient { get; }
-    public ILabRepository Lab { get; }
-    public ITestLabRepository TestLab { get; }
-    public IUserRepository User { get; }
+    //public IOrderRepository Order { get; }
+    //public IOrderItemRepository OrderItem { get; }
+    //public IDrugRepository Drug { get; }
+    //public IHospitalRepository Hospital { get; }
+    //public ITakeDrugRepository TakeDrug { get; }
+    //public IAppointmentRepository Appointment { get; }
+    //public IDepartmentRepository Department { get; }
+    //public IDoctorRepository Doctor { get; }
+    //public IPatientRepository Patient { get; }
+    //public ILabRepository Lab { get; }
+    //public ITestLabRepository TestLab { get; }
+    //public IUserRepository User { get; }
 
-    public UnitOfWork(AppDbContext appContext)
-    {
-        _context = appContext;
-
+    
         public IOrderRepository Order { get; } = new OrderRepository(appContext);
 
         public IOrderItemRepository OrderItem { get; } = new OrderItemRepository(appContext);

@@ -9,6 +9,7 @@ using ProCareMvc.presentation.Models;
 using ProCareMvc.presentation.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 
 namespace ProCareMvc.presentation.Controllers
@@ -51,16 +52,17 @@ namespace ProCareMvc.presentation.Controllers
                 .ToListAsync();
 
             return View(doctors);
-            this.emailServices = emailServices;
+            //this.emailServices = emailServices;
         }
 
         public async Task<IActionResult> Details(Guid id)
         {
             var doctorEntity = await UnitOfWork.Doctor.GetByIdAsync(id);
 
-            Department d = Mapper.Map<Department>(vm);
-             return View();
-        }
+            if (doctorEntity == null || doctorEntity.IsDeleted)
+            {
+                return NotFound("Doctor is not Avalible now");
+            }
 
             var doctorWithDetails = await UnitOfWork.Doctor.GetAll()
                 .AsNoTracking()
@@ -79,14 +81,14 @@ namespace ProCareMvc.presentation.Controllers
             int daysAhead = 3;
             DateTime now = DateTime.Today;
 
-      
+
 
             List<DateTime> allPossibleSlots = new List<DateTime>();
 
-            for (int day =0 ; day < daysAhead ; day++)
+            for (int day = 0; day < daysAhead; day++)
             {
 
-               DateTime currentDay = now.AddDays(day);
+                DateTime currentDay = now.AddDays(day);
 
                 for (var time = currentDay.AddHours(startHour); time < currentDay.AddHours(endHour); time = time.Add(slotDuration))
 
@@ -94,11 +96,46 @@ namespace ProCareMvc.presentation.Controllers
                     allPossibleSlots.Add(time);
                 }
             }
+            List<AppointmentVM> bookedAppointments = await UnitOfWork.Appointment
+                   .GetAll()
+                  .AsNoTracking()
+                   .Where(a => a.DoctorId == id && a.StartTime >= now && a.StartTime < now.AddDays(daysAhead) && !a.IsDeleted)
+                   .Select(a => new AppointmentVM { StartTime = a.StartTime, EndTime = a.EndTime })
+                   .ToListAsync();
 
-        public ActionResult SendEmail()
-        {
-            return View(new EmailViewModel());
+
+
+            List<AppointmentVM> availableAppointments = allPossibleSlots
+                .Where(slot => !bookedAppointments.Any(booked => slot >= booked.StartTime && slot < booked.EndTime))
+                .Select(slot => new AppointmentVM
+                {
+                    StartTime = slot,
+                    EndTime = slot.Add(slotDuration),
+                    Name = "Available",
+                    PatientId = Guid.Empty
+
+                })
+                .ToList();
+
+
+
+
+            var doctor = new ShowDoctorInHomePageVM
+            {
+                Id = doctorWithDetails.Id,
+                FullName = $"{doctorWithDetails.User.FirstName} {doctorWithDetails.User.LastName}",
+                DepartmentName = doctorWithDetails.Department.Name,
+                YearsOfExperience = doctorWithDetails.YearsOfExperience,
+                PhoneNumber = doctorWithDetails.User.PhoneNumber,
+                IsDeleted = doctorWithDetails.IsDeleted,
+                ImageUrl = doctorWithDetails.User.ImageProfileUrl,
+                AvailableAppointments = availableAppointments
+            };
+
+            return View(doctor);
         }
+
+    
 
         public IActionResult Privacy()
         {
@@ -110,21 +147,25 @@ namespace ProCareMvc.presentation.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        [Authorize]
         public async Task<IActionResult> GetMyOrders()
         {
-            var orders = await UnitOfWork.Order.GetAll().ToListAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var orders = await UnitOfWork.Order.GetAll().Where(x=>x.Patient.UserId == Guid.Parse(userId)) .ToListAsync();
           
             return View(orders);
         }
 
+        [Authorize]
         public async Task<IActionResult> GetMyOrdersById(Guid Id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var order = await UnitOfWork.Order.GetAll()
                 .Include(x => x.Patient)
                 .ThenInclude(x=> x.User)
                 .ThenInclude(x => x.PatientHestories)
-                .FirstOrDefaultAsync(x => x.Id == Id);
+                .FirstOrDefaultAsync(x => x.Id == Id && x.Patient.UserId == Guid.Parse(userId));
             if (order == null)
             {
                 return NotFound();
