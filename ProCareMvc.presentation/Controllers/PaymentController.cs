@@ -139,7 +139,7 @@ namespace ProCareMvc.Presentation.Controllers
 
                 if (result.Status == "COMPLETED")
                 {
-                    // 1. إنشاء الموعد
+              
                     var appointment = new Appointment
                     {
                         DoctorId = doctorId,
@@ -148,11 +148,10 @@ namespace ProCareMvc.Presentation.Controllers
                         PatienId = Guid.Empty,
                         IsDeleted = false,
                         Name = "Consultation"
-                        // OrderItemId بيفضل NULL
+                       
                     };
                     await UnitOfWork.Appointment.InsertAsync(appointment);
 
-                    // 2. إنشاء الطلب
                     var order = new Order
                     {
                         Id = Guid.NewGuid(),
@@ -164,7 +163,7 @@ namespace ProCareMvc.Presentation.Controllers
                     };
                     await UnitOfWork.Order.InsertAsync(order);
 
-                    // 3. إنشاء عنصر الطلب
+                
                     var orderItem = new AppointmentOrderItem
                     {
                         Id = Guid.NewGuid(),
@@ -173,7 +172,7 @@ namespace ProCareMvc.Presentation.Controllers
                     };
                     await UnitOfWork.OrderItem.InsertAsync(orderItem);
 
-                    // حفظ التغييرات
+                   
                     UnitOfWork.Save();
 
                     TempData["Success"] = "Appointment booked successfully!";

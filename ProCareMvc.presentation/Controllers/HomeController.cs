@@ -29,7 +29,7 @@ namespace ProCareMvc.presentation.Controllers
             Mapper = mapper;
         }
 
-        //[Authorize]
+     
         public async Task<IActionResult> Index()
         {
             var doctors = await UnitOfWork.Doctor.GetAll()
@@ -72,16 +72,13 @@ namespace ProCareMvc.presentation.Controllers
                 return NotFound();
             }
 
-            ////////////////////
-            ///// ????? ????? ????? ????????
             int startHour = 9;
             int endHour = 15;
             TimeSpan slotDuration = TimeSpan.FromMinutes(30);
             int daysAhead = 3;
             DateTime now = DateTime.Today;
 
-            //////////////
-            ///// ????? ?? ??????? ???????
+      
 
             List<DateTime> allPossibleSlots = new List<DateTime>();
 
@@ -105,7 +102,7 @@ namespace ProCareMvc.presentation.Controllers
 
 
 
-            // ??? ???????? ????????
+       
 
          List<AppointmentVM>  bookedAppointments = await UnitOfWork.Appointment
                 .GetAll()
@@ -114,7 +111,7 @@ namespace ProCareMvc.presentation.Controllers
                 .Select(a => new AppointmentVM { StartTime = a.StartTime, EndTime = a.EndTime })
                 .ToListAsync();
 
-            // ???? ???????? ???????
+         
 
             List<AppointmentVM> availableAppointments = allPossibleSlots
                 .Where(slot => !bookedAppointments.Any(booked => slot >= booked.StartTime && slot < booked.EndTime))
