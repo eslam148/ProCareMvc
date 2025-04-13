@@ -35,6 +35,11 @@ namespace ProCareMvc.presentation
 
             builder.Services.AddSignalR();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //services for account controller
+
+      
+
             builder.Services.AddAutoMapper(typeof(MapperProfile));
 
             var app = builder.Build();
