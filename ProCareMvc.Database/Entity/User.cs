@@ -17,5 +17,6 @@ namespace ProCareMvc.Database.Entity
         public Gender Gender { get; set; }
         public Patient? Patients { get; set; }
         public Doctor? Doctor { get; set; }
+        public string ImageProfileUrl { get; set; } = "doc-5.jpg";
     }
 }

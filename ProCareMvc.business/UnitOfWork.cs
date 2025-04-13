@@ -12,7 +12,9 @@ namespace ProCareMvc.business
 {
     public class UnitOfWork(AppDbContext appContext) : IUnitOfWork
     {
+       
         private AppDbContext context = appContext;
+        
 
         public IOrderRepository Order { get; } = new OrderRepository(appContext);
 
@@ -37,6 +39,10 @@ namespace ProCareMvc.business
 
         public ITestLabRepository TestLab { get; } = new TestLabRepository(appContext);
         public IPatientHestoryRepository PatientHestory { get; } = new PatientHestoryRepository(appContext);
+
+        public IUserRepository User { get; } = new UserRepository(appContext);
+
+         
 
         public void Dispose()
         {

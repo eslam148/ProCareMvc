@@ -4,71 +4,74 @@
     ViewData["Title"] = "PatientRegister";
 }
 
-<h1>PatientRegister</h1>
+<section class="hero-wrap js-fullheight pt-5 mt-5" style="background-image: url('/images/bg_3.jpg');  min-height: 188vh; height: 100vh;" data-section="home" data-stellar-background-ratio="0.5">
 
-<h4>PatientRegisterVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+
+<h4 class="text-secondary text-center mb-4"> </h4>
+<hr class="mb-5" />
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <form asp-action="Login" class="p-5 border rounded shadow-lg bg-white">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+            <div class="form-group mb-4">
+                <label asp-for="FirstName" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="FirstName" class="form-control border-primary" placeholder="Enter your first name" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="LastName" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="LastName" class="form-control border-primary" placeholder="Enter your last name" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="Email" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="Email" class="form-control border-primary" placeholder="Enter your email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="Password" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="Password" class="form-control border-primary" type="password" placeholder="Enter your password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="ConfirmPassword" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="ConfirmPassword" class="form-control border-primary" type="password" placeholder="Confirm your password" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
+            <div class="form-group mb-4">
+                <label asp-for="PhoneNumber" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="PhoneNumber" class="form-control border-primary" placeholder="Enter your phone number" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" type="date" />
+            <div class="form-group mb-4">
+                <label asp-for="BirthDate" class="form-label fw-semibold text-dark"></label>
+                <input asp-for="BirthDate" class="form-control border-primary" type="date" />
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label class="control-label">Gender</label>
+            <div class="form-group mb-4">
+                <label class="form-label fw-semibold text-dark">Gender</label>
                 <div class="form-check">
-                    <input type="radio" asp-for="Gender" value="Male" class="form-check-input" />
-                    <label class="form-check-label">Male</label>
+                    <input type="radio" asp-for="Gender" value="Male" class="form-check-input" id="genderMale" />
+                    <label class="form-check-label" for="genderMale">Male</label>
                 </div>
                 <div class="form-check">
-                    <input type="radio" asp-for="Gender" value="Female" class="form-check-input" />
-                    <label class="form-check-label">Female</label>
+                    <input type="radio" asp-for="Gender" value="Female" class="form-check-input" id="genderFemale" />
+                    <label class="form-check-label" for="genderFemale">Female</label>
                 </div>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group text-center">
+                <input type="submit" value="Register" class="btn btn-primary w-100 py-2 fw-bold" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Login">Login</a>
+<div class="text-center mt-4">
+    <a asp-action="Login" class="text-decoration-none text-primary">Already have an account? Login here</a>
 </div>
 <partial name="_ValidationScriptsPartial" />
+
+</section>
 

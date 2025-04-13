@@ -10,16 +10,17 @@ namespace ProCareMvc.Database
 {
     public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Lab> Labs { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<TestLab> TestLabs { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Drug> Drugs { get; set; }
-        public DbSet<User> Users {  get; set; }
-
-        public DbSet<PatientHestory> patientHestories { get; set; }
+        public DbSet<Hospital> Hospital { get; set; }
+        public DbSet<Lab> Labs { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<PatientHestory> PatientHestories { get; set; }
+        public DbSet<TakeDrug> TakeDrug { get; set; }
+        public DbSet<TestLab> TestLabs { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public AppDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
     
@@ -35,6 +36,6 @@ namespace ProCareMvc.Database
            
             base.OnModelCreating(builder);
         }
-
+      
     }
 }
