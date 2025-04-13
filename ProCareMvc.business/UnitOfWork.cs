@@ -1,20 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ProCareMvc.business.Interface;
+﻿using ProCareMvc.business.Interface;
 using ProCareMvc.business.InterfaceReposatory;
 using ProCareMvc.business.Repository;
+using ProCareMvc.business;
 using ProCareMvc.Database;
 
-namespace ProCareMvc.business
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork(AppDbContext appContext) : IUnitOfWork
+    private readonly AppDbContext _context;
+
+    public IOrderRepository Order { get; }
+    public IOrderItemRepository OrderItem { get; }
+    public IDrugRepository Drug { get; }
+    public IHospitalRepository Hospital { get; }
+    public ITakeDrugRepository TakeDrug { get; }
+    public IAppointmentRepository Appointment { get; }
+    public IDepartmentRepository Department { get; }
+    public IDoctorRepository Doctor { get; }
+    public IPatientRepository Patient { get; }
+    public ILabRepository Lab { get; }
+    public ITestLabRepository TestLab { get; }
+    public IUserRepository User { get; }
+
+    public UnitOfWork(AppDbContext appContext)
     {
-       
-        private AppDbContext context = appContext;
-        
+        _context = appContext;
 
         public IOrderRepository Order { get; } = new OrderRepository(appContext);
 
@@ -44,13 +53,13 @@ namespace ProCareMvc.business
 
          
 
-        public void Dispose()
-        {
-            context.Dispose();
-        }
-        public int Save()
-        {
-            return context.SaveChanges();
-        }
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+
+    public int Save()
+    {
+        return _context.SaveChanges();
     }
 }

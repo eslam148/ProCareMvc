@@ -13,6 +13,9 @@ namespace ProCareMvc.business.Repository
     {
         public DoctorRepository(AppDbContext appDbContext) : base(appDbContext)
         {
+
         }
+
+
     }
 }
