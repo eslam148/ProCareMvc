@@ -75,30 +75,39 @@ namespace ProCareMvc.Presentation.Controllers
 
         public async Task<IActionResult> CreatePayPalOrder([FromBody] BookAppointmentVM model)
         {
+
+
             try
             {
                 var environment = new SandboxEnvironment(PayPalClientId, PayPalSecret);
                 var client = new PayPalHttpClient(environment);
+                var mode = new PayPalOrders.AmountWithBreakdown
+                {
+                    CurrencyCode = "USD",
+                    Value = model?.Amount.ToString("F2") ?? "5.00",
 
+                };
+                var purch = new List<PayPalOrders.PurchaseUnitRequest>
+                {
+                new PayPalOrders.PurchaseUnitRequest
+                {
+                    AmountWithBreakdown =mode
+
+                }
+            };
+                var pa = new PayPalOrders.ApplicationContext
+                {
+                    ReturnUrl = ReturnUrl,
+                    CancelUrl = CancelUrl,
+
+                };
                 var order = new PayPalOrders.OrderRequest
                 {
                     CheckoutPaymentIntent = "CAPTURE",
-                    PurchaseUnits = new List<PayPalOrders.PurchaseUnitRequest>
-            {
-                new PayPalOrders.PurchaseUnitRequest
-                {
-                    AmountWithBreakdown = new PayPalOrders.AmountWithBreakdown
-                    {
-                        CurrencyCode = "USD",
-                        Value = model.Amount.ToString("F2")
-                    }
-                }
-            },
-                    ApplicationContext = new PayPalOrders.ApplicationContext
-                    {
-                        ReturnUrl = ReturnUrl,
-                        CancelUrl = CancelUrl
-                    }
+                   
+                    PurchaseUnits = purch,
+                    ApplicationContext = pa
+
                 };
 
                 var request = new PayPalOrders.OrdersCreateRequest();
